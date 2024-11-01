@@ -10,8 +10,29 @@ const config: Config = {
   ],
   theme: {
     extend: {},
+    colors: {
+      primary: "#FFEDDB",
+      secondary: "#E3B7A0",
+      accent: "#54473F",
+      red: "#FF0000",
+    },
   },
   darkMode: "class",
-  plugins: [nextui()],
+  plugins: [
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            primary: "#FFEDDB",
+            secondary: "#E3B7A0",
+            content1: "#FFEDDB",
+            background: "#FBFBFB",
+            focus: "#FFEDDB",
+            warning: "#BF9270",
+          },
+        },
+      },
+    }),
+  ],
 };
 export default config;

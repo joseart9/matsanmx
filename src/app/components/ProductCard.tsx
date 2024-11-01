@@ -43,7 +43,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <Card shadow="sm" radius="sm">
             <CardBody className="overflow-visible p-0 w-full">
                 <Image
-                    shadow="sm"
+                    shadow="md"
                     radius="none"
                     width="100%"
                     alt={product.name}
@@ -52,12 +52,12 @@ export default function ProductCard({ product }: { product: Product }) {
                 />
                 <div className="grid grid-cols-2 w-full h-full p-2">
                     <div>
-                        <p className="text-sm font-bold line-clamp-3">
+                        <p className="text-sm font-bold line-clamp-3 text-accent">
                             {product.name}
                         </p>
                         <div className="flex items-center space-x-1">
                             {product.hasDiscount && (
-                                <p className="text-red-500 line-through text-md">
+                                <p className="text-red line-through text-md">
                                     ${product.price.toFixed(0)}
                                 </p>
                             )}
@@ -92,7 +92,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 </div>
             </CardBody>
             <CardFooter className="text-small">
-                <b className="text-default-400 text-md line-clamp-4">{product.description}</b>
+                <b className="text-default-400 text-md line-clamp-4 text-secondary">{product.description}</b>
             </CardFooter>
         </Card>
     );

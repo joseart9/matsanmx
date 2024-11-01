@@ -1,17 +1,24 @@
 "use client";
 
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Divider } from "@nextui-org/react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link } from "@nextui-org/react";
 import { Button as IconButton } from "@nextui-org/button";
-import Product from "@/types/Product";
 import { CartItem } from "@/types/Cart";
 import { useCart } from "@/providers/CartContext";
+import CartSVG from "@/app/components/CartSVG";
+import CheckOutModal from "./CheckoutModal";
 
 export default function NavBarComponent() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { cart } = useCart();
+    // Estado para controlar el modal de checkout
+    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+    // Funciones para abrir y cerrar el modal de checkout
+    const openCheckoutModal = () => setIsCheckoutOpen(true);
+    const closeCheckoutModal = () => setIsCheckoutOpen(false);
 
     return (
         <div className="flex flex-col gap-2 w-full">
@@ -23,14 +30,22 @@ export default function NavBarComponent() {
                 isOpen={isOpen}
                 placement="bottom-center"
                 onOpenChange={onOpenChange}
+                scrollBehavior="inside"
+                hideCloseButton
             >
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Carrito</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1"></ModalHeader>
                             <ModalBody>
 
                                 <div className="flex flex-col gap-2">
+                                    {cart.length === 0 && (
+                                        <div className="text-secondary flex flex-row text-center w-full items-center justify-center">
+                                            <CartSVG />
+                                        </div>
+                                    )}
+
                                     {cart.map((item: any, index: number) => (
                                         <CheckOutInfo key={index} {...item} />
                                     ))}
@@ -46,16 +61,19 @@ export default function NavBarComponent() {
                                         Descuento: ${cart.reduce((acc: number, item: any) => acc + item.product.discount * item.quantity, 0).toFixed(2)}
                                     </p>
                                     <p className="font-bold text-lg">
-                                        Total: ${cart.reduce((acc: number, item: any) => acc + item.product.price * item.quantity, 0).toFixed(2)}
+                                        Total: ${cart.reduce((acc: number, item: any) => acc + (item.product.price - (item.product.discount || 0)) * item.quantity, 0).toFixed(2)}
                                     </p>
                                 </div>
 
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="default" variant="flat" onPress={onClose}>
+                                <Button color="primary" variant="flat" onPress={onClose}>
                                     Cerrar
                                 </Button>
-                                <Button color="primary" onPress={onClose}>
+                                <Button color="secondary" onPress={() => {
+                                    onClose();
+                                    openCheckoutModal();
+                                }}>
                                     Checkout
                                 </Button>
                             </ModalFooter>
@@ -63,6 +81,7 @@ export default function NavBarComponent() {
                     )}
                 </ModalContent>
             </Modal>
+            <CheckOutModal isOpen={isCheckoutOpen} onClose={closeCheckoutModal} />
         </div >
     );
 }
@@ -76,7 +95,7 @@ function CheckOutInfo(cartItem: CartItem) {
     return (
         <div className="flex gap-2 items-center justify-between">
 
-            <p className="text-lg text-default-500">{cartItem.product.name}</p>
+            <p className="text-lg text-accent">{cartItem.product.name}</p>
             <div className="flex fles-row items-center space-x-3">
                 <p className="text-lg text-ellipsis">${cartItem.product.price}&nbsp;x {cartItem.quantity}</p>
                 <Button onPress={handleRemove} isIconOnly className="bg-transparent rounded-full text-red-700">
@@ -91,14 +110,14 @@ function CheckOutInfo(cartItem: CartItem) {
 
 function NavbarComponent({ onOpenCart }: { onOpenCart: () => void }) {
     return (
-        <Navbar className="bg-slate-50">
+        <Navbar className="bg-secondary">
             <NavbarBrand>
                 <p className="font-bold text-inherit">LOGO</p>
             </NavbarBrand>
 
             <NavbarContent as="div" justify="end">
                 {/* Cart Button */}
-                <IconButton isIconOnly className="bg-transparent" onClick={onOpenCart}>
+                <IconButton isIconOnly className="bg-transparent text-accent" onClick={onOpenCart}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                     </svg>

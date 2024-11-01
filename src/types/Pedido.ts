@@ -1,6 +1,6 @@
 import { Cart } from "./Cart";
 
-interface Pedidos {
+export interface Pedido {
   id: string;
   primerNombre?: string;
   segundoNombre?: string;
@@ -8,6 +8,8 @@ interface Pedidos {
   segundoApellido?: string;
   calle?: string;
   colonia?: string;
+  estado?: string;
+  ciudad?: string;
   numero?: string;
   cp?: string;
   telefono?: string;
