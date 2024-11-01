@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Divider } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input } from "@nextui-org/react";
 import Product from "@/types/Product";
 import { updateProducto } from "@/server/actions";
 
@@ -7,13 +7,13 @@ interface EditModalProps {
     isOpen: boolean;
     onClose: () => void;
     producto: Product;
+    refetch: () => void;
 }
 
-export default function EditModal({ isOpen, onClose, producto }: EditModalProps) {
+export default function EditModal({ isOpen, onClose, producto, refetch }: EditModalProps) {
     const [editedProduct, setEditedProduct] = useState<Product>(producto);
     const [loading, setLoading] = useState(false);
 
-    // Maneja los cambios en los campos del formulario
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setEditedProduct((prev) => ({
@@ -22,12 +22,12 @@ export default function EditModal({ isOpen, onClose, producto }: EditModalProps)
         }));
     };
 
-    // Maneja el envío del formulario
     const handleSave = async () => {
         setLoading(true);
         try {
             await updateProducto(editedProduct);
-            onClose(); // Cierra el modal al guardar
+            refetch(); // Llama a refetch después de guardar el producto
+            onClose();
         } catch (error) {
             console.error("Error al actualizar el producto:", error);
         } finally {
