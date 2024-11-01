@@ -9,6 +9,10 @@ const inter = Cardo({ subsets: ['latin'], weight: "400" })
 export const metadata: Metadata = {
   title: 'MatsanMX',
   description: 'MatsanMX Joyeria y Accesorios',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  }
 }
 
 export default function RootLayout({
