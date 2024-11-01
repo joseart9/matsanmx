@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button, Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { addNovedades } from "@/server/actions";
 import { Novedad } from "@/types/Novedades";
 
@@ -14,7 +14,6 @@ export default function AdminNovedades() {
         const files = Array.from(e.target.files || []);
         setSelectedFiles(files);
 
-        // Genera previsualizaciones de las imágenes
         const filePreviews = files.map((file) => URL.createObjectURL(file));
         setPreviews(filePreviews);
     };
@@ -30,7 +29,7 @@ export default function AdminNovedades() {
             });
             const data = await response.json();
             if (data.success) {
-                return data.data.url; // URL de la imagen subida
+                return data.data.url;
             } else {
                 throw new Error("Error al subir la imagen a ImgBB");
             }
@@ -48,19 +47,16 @@ export default function AdminNovedades() {
             for (const file of selectedFiles) {
                 const imageUrl = await uploadImageToImgBB(file);
                 const novedad: Novedad = {
-                    id: `nov${Date.now()}`, // Genera un ID único
+                    id: `nov${Date.now()}`,
                     img: imageUrl,
                 };
                 novedadesList.push(novedad);
             }
 
-            console.log("Novedades a subir:", novedadesList);
-
-            // Guarda las novedades en Firestore
             await addNovedades({ novedad: novedadesList });
             setNovedades([...novedades, ...novedadesList]);
-            setSelectedFiles([]); // Limpia los archivos seleccionados
-            setPreviews([]);      // Limpia las previsualizaciones
+            setSelectedFiles([]);
+            setPreviews([]);
         } catch (error) {
             console.error("Error al subir novedades:", error);
         } finally {
@@ -73,12 +69,20 @@ export default function AdminNovedades() {
             <h1 className="flex text-2xl mt-1 text-accent items-center justify-center">
                 Novedades
             </h1>
+            <h2 className="flex w-full text-center">
+                Cada que se suban imagenes aqui, se eliminaran las anteriores y se subiran las nuevas.
+            </h2>
             <div className="p-4 gap-2 flex flex-col w-full max-w-md mx-auto">
-                <Input
+                <label htmlFor="fileInput" className="cursor-pointer text-blue-500 underline">
+                    Seleccionar imágenes
+                </label>
+                <input
+                    id="fileInput"
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
                     multiple
+                    className="hidden"
                 />
                 <div className="grid grid-cols-2 gap-2 mt-4">
                     {previews.map((preview, index) => (
@@ -91,6 +95,7 @@ export default function AdminNovedades() {
                     onClick={handleUpload}
                     disabled={loading || selectedFiles.length === 0}
                     className={`mt-4 ${loading ? "opacity-50" : ""}`}
+                    color="warning"
                 >
                     {loading ? "Subiendo..." : "Guardar Novedades"}
                 </Button>
