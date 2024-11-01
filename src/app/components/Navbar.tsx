@@ -94,7 +94,6 @@ function CheckOutInfo(cartItem: CartItem) {
     };
     return (
         <div className="flex gap-2 items-center justify-between">
-
             <p className="text-lg text-accent">{cartItem.product.name}</p>
             <div className="flex fles-row items-center space-x-3">
                 <p className="text-lg text-ellipsis">${cartItem.product.price}&nbsp;x {cartItem.quantity}</p>
@@ -109,6 +108,11 @@ function CheckOutInfo(cartItem: CartItem) {
 }
 
 function NavbarComponent({ onOpenCart }: { onOpenCart: () => void }) {
+    const { cart } = useCart();
+
+    // Calcular la cantidad total de items en el carrito
+    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+
     return (
         <Navbar className="bg-secondary">
             <NavbarBrand>
@@ -117,10 +121,17 @@ function NavbarComponent({ onOpenCart }: { onOpenCart: () => void }) {
 
             <NavbarContent as="div" justify="end">
                 {/* Cart Button */}
-                <IconButton isIconOnly className="bg-transparent text-accent" onClick={onOpenCart}>
+                <IconButton isIconOnly className="bg-transparent text-accent relative rounded-none" onClick={onOpenCart}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                     </svg>
+                    {totalItems ? (
+                        <div className="absolute top-0 right-0 bg-primary text-accent rounded-full w-4 h-4 flex items-center justify-center text-md font-bold">
+                            {totalItems}
+                        </div>
+                    ) : (
+                        ""
+                    )}
                 </IconButton>
             </NavbarContent>
         </Navbar>

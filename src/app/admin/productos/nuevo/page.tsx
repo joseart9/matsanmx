@@ -68,14 +68,12 @@ export default function AdminProductos() {
         try {
             // Primero sube la imagen y obtiene la URL
             const imageUrl = await uploadImageToImgBB(imageFile);
-            console.log("Imagen subida con URL:", imageUrl);
 
             // Actualiza el producto con el URL de la imagen
             const newProduct = { ...product, img: imageUrl };
 
             // Envía el producto completo a la base de datos
             await addProducto(newProduct);
-            console.log("Producto guardado con éxito:", newProduct);
 
             // Resetea el formulario y la imagen
             setProduct({

@@ -7,7 +7,6 @@ import { ProductsTendencia } from '@/types/ProductsTendencia';
 import { Novedad } from '@/types/Novedades';
 
 export default function NovedadesCaroussel({ productsTendencia }: { productsTendencia: Novedad[] }) {
-    console.log("Novedades:", productsTendencia);
     return (
         <div className="w-full h-full">
             <Swiper
