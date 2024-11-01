@@ -20,7 +20,11 @@ export default function App() {
         {
             label: "Pedidos",
             href: "/admin/pedidos",
-        }
+        },
+        {
+            label: "Novedades",
+            href: "/admin/novedades",
+        },
     ];
 
     return (
