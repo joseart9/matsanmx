@@ -14,4 +14,5 @@ export interface Pedido {
   cp?: string;
   telefono?: string;
   carrito?: Cart;
+  finalizado?: boolean;
 }

@@ -30,7 +30,7 @@ export default function Home() {
       <Navbar />
       <section className="flex w-full min-h-screen flex-col p-2 bg-primary">
         <section className="flex flex-col w-full h-full">
-          <h1 className="text-xl text-center font-bold p-1 text-accent">Novedades</h1>
+          <h1 className="text-2xl text-center font-light p-1 text-accent tracking-wide">Novedades</h1>
           <NovedadesCaroussel productsTendencia={productsTendencia} />
         </section>
         <section className="flex flex-col w-full h-full mt-5">

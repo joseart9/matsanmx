@@ -47,7 +47,7 @@ export default function ProductCard({ product }: { product: Product }) {
                     radius="none"
                     width="100%"
                     alt={product.name}
-                    className="w-full h-[140px]"
+                    className="w-full h-[140px] object-cover"
                     src={product.img}
                 />
                 <div className="grid grid-cols-2 w-full h-full p-2">

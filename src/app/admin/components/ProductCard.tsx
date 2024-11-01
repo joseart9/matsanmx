@@ -2,6 +2,9 @@ import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import Product from "@/types/Product";
 
 export default function ProductCard({ product, onImageClick }: { product: Product; onImageClick?: () => void }) {
+    const discountedPrice = product.hasDiscount
+        ? (product.price - (product.discount ?? 0)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+        : product.price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     return (
         <Card shadow="sm" radius="sm" className="w-full">
             <CardBody className="overflow-visible p-0 w-full">
@@ -24,7 +27,14 @@ export default function ProductCard({ product, onImageClick }: { product: Produc
                             {product.name}
                         </p>
                         <div className="flex items-center space-x-1">
-                            <p>${product.price.toFixed(2)}</p>
+                            {product.hasDiscount && (
+                                <p className="text-red line-through text-md">
+                                    ${product.price.toFixed(0)}
+                                </p>
+                            )}
+                            <p className="text-default-800">
+                                ${discountedPrice}
+                            </p>
                         </div>
                     </div>
                 </div>

@@ -9,16 +9,18 @@ export default function App() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const menuItems = [
-        "Profile",
-        "Dashboard",
-        "Activity",
-        "Analytics",
-        "System",
-        "Deployments",
-        "My Settings",
-        "Team Settings",
-        "Help & Feedback",
-        "Log Out",
+        {
+            label: "Productos",
+            href: "/admin/productos",
+        },
+        {
+            label: "Agregar Producto",
+            href: "/admin/productos/nuevo",
+        },
+        {
+            label: "Pedidos",
+            href: "/admin/pedidos",
+        }
     ];
 
     return (
@@ -40,14 +42,12 @@ export default function App() {
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
                         <Link
-                            color={
-                                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-                            }
+                            color="warning"
                             className="w-full"
-                            href="#"
+                            href={item.href}
                             size="lg"
                         >
-                            {item}
+                            {item.label}
                         </Link>
                     </NavbarMenuItem>
                 ))}

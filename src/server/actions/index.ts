@@ -1,6 +1,15 @@
 "use server";
 
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  setDoc,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
 import db from "@/db";
 import { Cart } from "@/types/Cart";
 import { Pedido } from "@/types/Pedido";
@@ -79,6 +88,38 @@ export async function fetchAllPedidos(): Promise<Pedido[]> {
     return pedidos;
   } catch (error) {
     console.error("Error al obtener los pedidos:", error);
+    throw error; // Lanza el error para manejo adicional si es necesario
+  }
+}
+
+export async function updateProducto(producto: Product) {
+  try {
+    // Referencia a la colección "productos"
+    const productosCollection = collection(firestore, "productos");
+
+    // Busca el producto por productId en la colección
+    const productQuery = query(
+      productosCollection,
+      where("productId", "==", producto.productId)
+    );
+    const querySnapshot = await getDocs(productQuery);
+
+    if (!querySnapshot.empty) {
+      // Obtén el primer documento que coincida con el productId
+      const productDoc = querySnapshot.docs[0];
+
+      // Sobreescribe el documento con los nuevos datos de producto
+      await setDoc(doc(firestore, "productos", productDoc.id), producto);
+
+      console.log(
+        `Producto con ID ${producto.productId} actualizado correctamente.`
+      );
+    } else {
+      console.error(`Producto con ID ${producto.productId} no encontrado.`);
+      throw new Error("Producto no encontrado en la base de datos.");
+    }
+  } catch (error) {
+    console.error("Error al actualizar el producto:", error);
     throw error; // Lanza el error para manejo adicional si es necesario
   }
 }

@@ -47,7 +47,8 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
         colonia: "",
         estado: "",
         ciudad: "",
-        cp: ""
+        cp: "",
+        finalizado: false
     });
     const [loading, setLoading] = useState(false);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -62,6 +63,8 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
     };
 
     const customId = generateCustomId();
+
+    console.log("Pedido ID: ", customId);
 
     const onSave = async (event: any) => {
         setLoading(true);
@@ -92,7 +95,8 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                 colonia: "",
                 estado: "",
                 ciudad: "",
-                cp: ""
+                cp: "",
+                finalizado: false
             });
         } catch (error) {
             console.error("Error al enviar el pedido:", error);

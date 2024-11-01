@@ -1,7 +1,7 @@
 "use client";
 
 import { useProductos } from "@/hooks/useProductos";
-import ProductCard from "@/app/admin/components/ProductCard";
+import ProductCardEdit from "@/app/admin/components/ProductCardEdit";
 import { CircularProgress } from "@nextui-org/react";
 
 export default function AdminPedidos() {
@@ -16,10 +16,15 @@ export default function AdminPedidos() {
     console.log(productos);
 
     return (
-        <div className="flex flex-col min-h-screen w-screen mt-5">
-            {productos.map((producto) => (
-                <ProductCard key={producto.productId} product={producto} />
-            ))}
-        </div>
+        <section className="flex flex-col min-h-screen w-screen bg-primary">
+            <h1 className="flex text-2xl mt-1 text-accent items-center justify-center">
+                Productos
+            </h1>
+            <div className="p-2 gap-2 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 w-full">
+                {productos.map((producto) => (
+                    <ProductCardEdit key={producto.productId} product={producto} />
+                ))}
+            </div>
+        </section>
     )
 }

@@ -112,7 +112,7 @@ function NavbarComponent({ onOpenCart }: { onOpenCart: () => void }) {
     return (
         <Navbar className="bg-secondary">
             <NavbarBrand>
-                <p className="font-bold text-inherit">LOGO</p>
+                <img src="/logo.webp" alt="logo" className="w-10 h-10" />
             </NavbarBrand>
 
             <NavbarContent as="div" justify="end">
