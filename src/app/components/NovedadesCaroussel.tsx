@@ -16,12 +16,12 @@ export default function NovedadesCaroussel({ productsTendencia }: { productsTend
                 loop={true}
                 autoplay={{ delay: 3000, disableOnInteraction: false }}
                 modules={[Autoplay]}
-                className="w-full rounded-md"
+                className="w-full rounded-md object-cover"
             >
                 {productsTendencia.map((product, index) => (
                     <SwiperSlide key={index}>
                         <img
-                            className="h-40 w-[400px] rounded-md"
+                            className="h-52 w-[400px] rounded-md"
                             src={product.img}
                             alt={`Novedad ${index + 1}`}
                         />
