@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Checkbox } from "@nextui-org/react";
 import Product from "@/types/Product";
 import { updateProducto } from "@/server/actions";
 
@@ -19,6 +19,14 @@ export default function EditModal({ isOpen, onClose, producto, refetch }: EditMo
         setEditedProduct((prev) => ({
             ...prev,
             [name]: name === "price" || name === "discount" ? parseFloat(value) : value,
+        }));
+    };
+
+    const handleCheckboxChange = () => {
+        setEditedProduct((prev) => ({
+            ...prev,
+            hasDiscount: !prev.hasDiscount,
+            discount: !prev.hasDiscount ? prev.discount : 0, // Si se desactiva, setea el descuento a 0
         }));
     };
 
@@ -85,15 +93,9 @@ export default function EditModal({ isOpen, onClose, producto, refetch }: EditMo
                                 color="warning"
                             />
                             <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    checked={editedProduct.hasDiscount}
-                                    onChange={() =>
-                                        setEditedProduct((prev) => ({
-                                            ...prev,
-                                            hasDiscount: !prev.hasDiscount,
-                                        }))
-                                    }
+                                <Checkbox
+                                    isSelected={editedProduct.hasDiscount}
+                                    onChange={handleCheckboxChange}
                                 />
                                 <label>¿Tiene descuento?</label>
                             </div>
