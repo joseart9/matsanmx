@@ -64,8 +64,6 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
 
     const customId = generateCustomId();
 
-    console.log("Pedido ID: ", customId);
-
     const onSave = async (event: any) => {
         setLoading(true);
 

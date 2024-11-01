@@ -8,7 +8,6 @@ interface ConfirmationModalProps {
 }
 
 export default function ConfirmationModal({ isOpen, onClose, pedidoId }: ConfirmationModalProps) {
-    console.log("Pedido ID recibido por Confirmiation Modal: ", pedidoId);
     return (
         <Modal
             isOpen={isOpen}

@@ -7,8 +7,6 @@ import PedidoCard from "@/app/admin/components/PedidoCard";
 export default function AdminPedidos() {
     const { pedidos, loading, error } = usePedidos();
 
-    console.log(pedidos);
-
     if (loading) return (
         <div className="flex min-h-screen w-full items-center justify-center">
             <CircularProgress color="warning" size="lg" aria-label="Loading..." />

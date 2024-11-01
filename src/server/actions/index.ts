@@ -27,11 +27,8 @@ export async function addPedido(pedido: Pedido) {
     // Agrega el documento a Firestore
     const docRef = await addDoc(pedidosCollection, pedido);
 
-    console.log("Pedido agregado con ID:", docRef.id);
     return docRef.id; // Devuelve el ID del documento agregado si es necesario
-  } catch (error) {
-    console.error("Error al agregar el pedido:", error);
-  }
+  } catch (error) {}
 }
 
 export async function addProducto(producto: Product) {
@@ -42,10 +39,8 @@ export async function addProducto(producto: Product) {
     // Agrega el documento a Firestore
     const docRef = await addDoc(productosCollection, producto);
 
-    console.log("Producto agregado con ID:", docRef.id);
     return docRef.id; // Devuelve el ID del documento agregado si es necesario
   } catch (error) {
-    console.error("Error al agregar el producto:", error);
     throw error; // Lanza el error para manejo adicional si es necesario
   }
 }
@@ -58,17 +53,13 @@ export async function fetchAllProductos(): Promise<Product[]> {
     // Obtén todos los documentos de la colección
     const querySnapshot = await getDocs(productosCollection);
 
-    console.log("Cantidad de documentos obtenidos:", querySnapshot.size);
-
     // Mapea los documentos a objetos de tipo Product
     const productos = querySnapshot.docs.map((doc) => ({
       ...doc.data(),
     })) as Product[];
 
-    console.log("Productos obtenidos:", productos);
     return productos;
   } catch (error) {
-    console.error("Error al obtener los productos:", error);
     throw error; // Lanza el error para manejo adicional si es necesario
   }
 }
@@ -86,10 +77,8 @@ export async function fetchAllPedidos(): Promise<Pedido[]> {
       ...doc.data(),
     })) as Pedido[];
 
-    console.log("Pedidos obtenidos:", pedidos);
     return pedidos;
   } catch (error) {
-    console.error("Error al obtener los pedidos:", error);
     throw error; // Lanza el error para manejo adicional si es necesario
   }
 }
@@ -112,10 +101,6 @@ export async function updateProducto(producto: Product) {
 
       // Sobreescribe el documento con los nuevos datos de producto
       await setDoc(doc(firestore, "productos", productDoc.id), producto);
-
-      console.log(
-        `Producto con ID ${producto.productId} actualizado correctamente.`
-      );
     } else {
       console.error(`Producto con ID ${producto.productId} no encontrado.`);
       throw new Error("Producto no encontrado en la base de datos.");
@@ -134,17 +119,12 @@ export async function addNovedades(novedades: Novedades) {
     const snapshot = await getDocs(novedadesCollection);
     const deletePromises = snapshot.docs.map((doc) => deleteDoc(doc.ref));
     await Promise.all(deletePromises);
-    console.log("Todos los documentos en 'novedades' han sido eliminados.");
 
     // Agrega cada novedad recibida como un nuevo documento
     for (const novedad of novedades.novedad) {
       const docRef = await addDoc(novedadesCollection, novedad);
-      console.log(`Novedad agregada con ID: ${docRef.id}`);
     }
-
-    console.log("Todas las novedades se han agregado correctamente.");
   } catch (error) {
-    console.error("Error al agregar las novedades:", error);
     throw error; // Lanza el error para manejo adicional si es necesario
   }
 }
@@ -165,10 +145,6 @@ export async function deleteProducto(producto: Product) {
       // Obtén el primer documento que coincida con el productId y elimínalo
       const productDoc = querySnapshot.docs[0];
       await deleteDoc(doc(firestore, "productos", productDoc.id));
-
-      console.log(
-        `Producto con ID ${producto.productId} eliminado correctamente.`
-      );
     } else {
       console.error(`Producto con ID ${producto.productId} no encontrado.`);
       throw new Error("Producto no encontrado en la base de datos.");
@@ -192,8 +168,6 @@ export async function fetchAllNovedades(): Promise<Novedad[]> {
       id: doc.id,
       ...doc.data(),
     })) as Novedad[];
-
-    console.log("Novedades obtenidas:", novedades);
     return novedades;
   } catch (error) {
     console.error("Error al obtener las novedades:", error);

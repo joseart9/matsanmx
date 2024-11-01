@@ -21,10 +21,6 @@ export default function Home() {
     </div>
   );
 
-
-
-  console.log("Novedades En Home:", novedades);
-
   return (
     <main className="flex min-h-screen w-screen flex-col items-center">
       <Navbar />
