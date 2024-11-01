@@ -9,11 +9,13 @@ import {
   query,
   where,
   doc,
+  deleteDoc,
 } from "firebase/firestore";
 import db from "@/db";
 import { Cart } from "@/types/Cart";
 import { Pedido } from "@/types/Pedido";
 import Product from "@/types/Product";
+import { Novedad, Novedades } from "@/types/Novedades";
 
 const firestore = getFirestore(db);
 
@@ -120,6 +122,81 @@ export async function updateProducto(producto: Product) {
     }
   } catch (error) {
     console.error("Error al actualizar el producto:", error);
+    throw error; // Lanza el error para manejo adicional si es necesario
+  }
+}
+
+export async function addNovedades(novedades: Novedades) {
+  try {
+    const novedadesCollection = collection(firestore, "novedades");
+
+    // Elimina todos los documentos en la colección de novedades
+    const snapshot = await getDocs(novedadesCollection);
+    const deletePromises = snapshot.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+    console.log("Todos los documentos en 'novedades' han sido eliminados.");
+
+    // Agrega cada novedad recibida como un nuevo documento
+    for (const novedad of novedades.novedad) {
+      const docRef = await addDoc(novedadesCollection, novedad);
+      console.log(`Novedad agregada con ID: ${docRef.id}`);
+    }
+
+    console.log("Todas las novedades se han agregado correctamente.");
+  } catch (error) {
+    console.error("Error al agregar las novedades:", error);
+    throw error; // Lanza el error para manejo adicional si es necesario
+  }
+}
+
+export async function deleteProducto(producto: Product) {
+  try {
+    // Referencia a la colección "productos"
+    const productosCollection = collection(firestore, "productos");
+
+    // Busca el producto en Firestore usando el productId
+    const productQuery = query(
+      productosCollection,
+      where("productId", "==", producto.productId)
+    );
+    const querySnapshot = await getDocs(productQuery);
+
+    if (!querySnapshot.empty) {
+      // Obtén el primer documento que coincida con el productId y elimínalo
+      const productDoc = querySnapshot.docs[0];
+      await deleteDoc(doc(firestore, "productos", productDoc.id));
+
+      console.log(
+        `Producto con ID ${producto.productId} eliminado correctamente.`
+      );
+    } else {
+      console.error(`Producto con ID ${producto.productId} no encontrado.`);
+      throw new Error("Producto no encontrado en la base de datos.");
+    }
+  } catch (error) {
+    console.error("Error al eliminar el producto:", error);
+    throw error; // Lanza el error para manejo adicional si es necesario
+  }
+}
+
+export async function fetchAllNovedades(): Promise<Novedad[]> {
+  try {
+    // Referencia a la colección "novedades"
+    const novedadesCollection = collection(firestore, "novedades");
+
+    // Obtén todos los documentos de la colección
+    const querySnapshot = await getDocs(novedadesCollection);
+
+    // Mapea los documentos a objetos de tipo Novedad
+    const novedades = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Novedad[];
+
+    console.log("Novedades obtenidas:", novedades);
+    return novedades;
+  } catch (error) {
+    console.error("Error al obtener las novedades:", error);
     throw error; // Lanza el error para manejo adicional si es necesario
   }
 }

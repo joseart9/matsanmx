@@ -112,7 +112,7 @@ function NavbarComponent({ onOpenCart }: { onOpenCart: () => void }) {
     return (
         <Navbar className="bg-secondary">
             <NavbarBrand>
-                <img src="/logo.webp" alt="logo" className="w-10 h-10" />
+                <img src="/logo.svg" alt="logo" className="w-auto h-16" />
             </NavbarBrand>
 
             <NavbarContent as="div" justify="end">

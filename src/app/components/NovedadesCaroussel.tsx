@@ -4,8 +4,10 @@ import 'swiper/css/bundle';
 // import Swiper from 'swiper/bundle';
 import { Autoplay } from 'swiper/modules';
 import { ProductsTendencia } from '@/types/ProductsTendencia';
+import { Novedad } from '@/types/Novedades';
 
-export default function NovedadesCaroussel({ productsTendencia }: { productsTendencia: ProductsTendencia[] }) {
+export default function NovedadesCaroussel({ productsTendencia }: { productsTendencia: Novedad[] }) {
+    console.log("Novedades:", productsTendencia);
     return (
         <div className="w-full h-full">
             <Swiper

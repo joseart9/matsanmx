@@ -4,8 +4,7 @@ import Product from "@/types/Product";
 import EditModal from "./EditModal";
 import { useState } from "react";
 
-export default function ProductCard({ product }: { product: Product }) {
-    const [loading, setLoading] = useState(false);
+export default function ProductCard({ product, refetch }: { product: Product; refetch: () => void }) {
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
     const discountedPrice = product.hasDiscount
         ? (product.price - (product.discount ?? 0)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
@@ -13,7 +12,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
     return (
         <>
-            <Card shadow="sm" radius="sm" className="w-full" isPressable onPress={(e) => setIsConfirmationOpen(true)}>
+            <Card shadow="sm" radius="sm" className="w-full" isPressable onPress={() => setIsConfirmationOpen(true)}>
                 <CardBody className="overflow-visible p-0 w-full">
                     <Image
                         shadow="md"
@@ -49,6 +48,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 isOpen={isConfirmationOpen}
                 onClose={() => setIsConfirmationOpen(false)}
                 producto={product}
+                refetch={refetch}
             />
         </>
     );
