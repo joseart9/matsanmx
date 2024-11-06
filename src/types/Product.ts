@@ -6,4 +6,5 @@ export default interface Product {
   img?: string;
   discount?: number;
   hasDiscount?: boolean;
+  stock?: number;
 }

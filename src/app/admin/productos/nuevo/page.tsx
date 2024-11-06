@@ -77,7 +77,7 @@ export default function AdminProductos() {
 
             // Resetea el formulario y la imagen
             setProduct({
-                productId: "",
+                productId: generateRandomId(),
                 name: "Nombre del Producto",
                 description: "Descripción del Producto",
                 price: 10,
