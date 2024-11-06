@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider } from "@nextui-org/react";
 import { Pedido } from "@/types/Pedido";
+import { markPedidoAsCompleted } from "@/server/actions";
 
 interface PedidoModalProps {
     isOpen: boolean;
@@ -21,6 +22,20 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
     }, 0);
 
     const total = subtotal && totalDiscount ? subtotal - totalDiscount : 0;
+
+    // Función para finalizar el pedido
+    const completarPedido = async () => {
+        setLoading(true);
+        try {
+            // Aquí se puede agregar la lógica para finalizar el pedido
+            await markPedidoAsCompleted(pedido?.id!);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+            onClose();
+        }
+    };
 
     return (
         <Modal
@@ -75,7 +90,7 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
                         <Button color="primary" variant="flat" onPress={onClose} disabled={loading}>
                             Cerrar
                         </Button>
-                        <Button color="secondary" isLoading={loading}>
+                        <Button color="secondary" onPress={completarPedido} isLoading={loading}>
                             Finalizar
                         </Button>
                     </ModalFooter>

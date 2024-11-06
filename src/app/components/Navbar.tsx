@@ -21,7 +21,7 @@ export default function NavBarComponent() {
     const closeCheckoutModal = () => setIsCheckoutOpen(false);
 
     return (
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex h-fit flex-col gap-2 w-full fixed z-50">
             <NavbarComponent onOpenCart={onOpen} />
 
 
@@ -38,7 +38,6 @@ export default function NavBarComponent() {
                         <>
                             <ModalHeader className="flex flex-col gap-1"></ModalHeader>
                             <ModalBody>
-
                                 <div className="flex flex-col gap-2">
                                     {cart.length === 0 && (
                                         <div className="text-secondary flex flex-row text-center w-full items-center justify-center">
@@ -53,24 +52,23 @@ export default function NavBarComponent() {
 
                                 <Divider className="my-2" />
 
-                                <div className="flex flex-col text-right space-y-2">
-                                    <p className="text-lg">
-                                        Subtotal: ${cart.reduce((acc: number, item: any) => acc + item.product.price * item.quantity, 0).toFixed(2)}
-                                    </p>
-                                    <p className="text-lg">
-                                        Descuento: ${cart.reduce((acc: number, item: any) => acc + item.product.discount * item.quantity, 0).toFixed(2)}
-                                    </p>
-                                    <p className="font-bold text-lg">
-                                        Total: ${cart.reduce((acc: number, item: any) => acc + (item.product.price - (item.product.discount || 0)) * item.quantity, 0).toFixed(2)}
-                                    </p>
-                                </div>
+                                {cart.length > 0 && (
+                                    <div className="flex flex-col text-right space-y-2">
+                                        <p className="text-lg">
+                                            Subtotal: ${cart.reduce((acc: number, item: any) => acc + item.product.price * item.quantity, 0).toFixed(2)}
+                                        </p>
+                                        <p className="text-lg">
+                                            Descuento: ${cart.reduce((acc: number, item: any) => acc + item.product.discount * item.quantity, 0).toFixed(2)}
+                                        </p>
+                                        <p className="font-bold text-lg">
+                                            Total: ${cart.reduce((acc: number, item: any) => acc + (item.product.price - (item.product.discount || 0)) * item.quantity, 0).toFixed(2)}
+                                        </p>
+                                    </div>
+                                )}
 
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" variant="flat" onPress={onClose}>
-                                    Cerrar
-                                </Button>
-                                <Button color="secondary" onPress={() => {
+                                <Button color="secondary" isDisabled={cart.length === 0} onPress={() => {
                                     onClose();
                                     openCheckoutModal();
                                 }}>
@@ -114,7 +112,7 @@ function NavbarComponent({ onOpenCart }: { onOpenCart: () => void }) {
     const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
-        <Navbar className="bg-secondary">
+        <Navbar className="bg-secondary" position="sticky">
             <NavbarBrand>
                 <img src="/logo.svg" alt="logo" className="w-auto h-16" />
             </NavbarBrand>

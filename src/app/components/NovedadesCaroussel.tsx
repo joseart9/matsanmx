@@ -18,7 +18,7 @@ export default function NovedadesCaroussel({ productsTendencia }: { productsTend
                 {productsTendencia.map((product, index) => (
                     <SwiperSlide key={index}>
                         <img
-                            className="h-52 w-full rounded-md object-cover"
+                            className="h-56 w-full rounded-md object-cover"
                             src={product.img}
                             alt={`Novedad ${index + 1}`}
                         />

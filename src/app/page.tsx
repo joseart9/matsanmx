@@ -22,11 +22,11 @@ export default function Home() {
   );
 
   return (
-    <main className="flex min-h-screen w-screen flex-col items-center">
+    <main className="flex min-h-screen w-screen flex-col items-center bg-primary">
       <Navbar />
-      <section className="flex w-full min-h-screen flex-col p-2 bg-primary">
+      <section className="flex w-full h-full flex-col p-2 bg-primary mt-20">
         <section className="flex flex-col w-full h-full">
-          <h1 className="text-2xl text-center font-light p-1 text-accent tracking-wide">Novedades</h1>
+          <h1 className="text-2xl text-center font-light p-1 text-accent tracking-wide mb-5">NUEVA COLECCI&Oacute;N</h1>
           <NovedadesCaroussel productsTendencia={novedades} />
         </section>
         <section className="flex flex-col w-full h-full mt-5">
