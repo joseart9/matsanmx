@@ -33,7 +33,7 @@ export default function ProductCard({ product, refetch }: { product: Product; re
                             <div className="flex items-center space-x-1">
                                 {product.hasDiscount && (
                                     <p className="text-red line-through text-md">
-                                        ${product.price.toFixed(0)}
+                                        ${product.price}
                                     </p>
                                 )}
                                 <p className="text-default-800">
