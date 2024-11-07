@@ -182,10 +182,7 @@ export async function markPedidoAsCompleted(pedidoId: string) {
     const pedidosCollection = collection(firestore, "pedidos");
 
     // Busca el pedido en Firestore usando el pedidoId
-    const pedidoQuery = query(
-      pedidosCollection,
-      where("pedidoId", "==", pedidoId)
-    );
+    const pedidoQuery = query(pedidosCollection, where("id", "==", pedidoId));
     const querySnapshot = await getDocs(pedidoQuery);
 
     if (!querySnapshot.empty) {
