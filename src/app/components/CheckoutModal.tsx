@@ -9,6 +9,7 @@ import { updateStockFromCart } from "@/server/actions";
 
 export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const modalBodyRef = useRef<HTMLDivElement>(null);
+    const [confirmationNumber, setConfirmationNumber] = useState("");
 
     // Desplazamiento suave al hacer foco en un input
     useEffect(() => {
@@ -63,9 +64,10 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const customId = generateCustomId();
-
     const onSave = async (event: any) => {
+        const customId = generateCustomId();
+
+        console.log(customId);
         setLoading(true);
 
         const carrito: Cart = {
@@ -77,6 +79,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
 
 
         try {
+            setConfirmationNumber(customId);
             const pedidoToSave = { id: customId, ...formData, carrito };
             await addPedido(pedidoToSave);
 
@@ -250,7 +253,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
             <ConfirmationModal
                 isOpen={isConfirmationOpen}
                 onClose={() => setIsConfirmationOpen(false)}
-                pedidoId={customId}
+                pedidoId={confirmationNumber}
             />
         </>
     );
