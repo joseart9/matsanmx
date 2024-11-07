@@ -48,11 +48,11 @@ export default function ProductCard({ product }: { product: Product }) {
         <Card shadow="sm" radius="sm">
             <CardBody className="overflow-visible p-0 w-full">
                 <Image
-                    quality={60}
+                    quality={100}
                     width="100"
                     height="100"
                     alt={product.name}
-                    className="w-full h-[180px] object-cover shadow-md"
+                    className="w-full h-[150px] object-cover shadow-md"
                     src={product.img ?? ""}
                 />
                 <div className="grid grid-cols-2 w-full h-full p-2">
