@@ -18,10 +18,14 @@ export default function ProductCard({ product }: { product: Product }) {
     }, [cart, product.productId]);
 
     const incrementQuantity = () => {
-        const newQuantity = quantity + 1;
-        setQuantity(newQuantity);
-        const cartItem = { product, quantity: 1 };
-        addToCart(cartItem);
+        if (quantity < (product.stock ?? 0)) { // Verifica si hay stock disponible
+            const newQuantity = quantity + 1;
+            setQuantity(newQuantity);
+            const cartItem = { product, quantity: 1 };
+            addToCart(cartItem);
+        } else {
+            console.warn("No se puede agregar más del stock disponible");
+        }
     };
 
     const decrementQuantity = () => {
