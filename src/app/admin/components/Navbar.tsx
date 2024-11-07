@@ -38,7 +38,7 @@ export default function App() {
                 </NavbarMenuToggle>
 
                 <NavbarBrand>
-                    <p className="text-inherit">Admin</p>
+                    <img src="/logo.svg" alt="logo" className="w-auto h-16" />
                 </NavbarBrand>
             </NavbarContent>
 
