@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Card, CardBody, CardFooter } from "@nextui-org/react";
+import Image from 'next/image'
 import dynamic from 'next/dynamic';
 import Product from "@/types/Product";
 import { useCart } from "@/providers/CartContext";
@@ -47,12 +48,12 @@ export default function ProductCard({ product }: { product: Product }) {
         <Card shadow="sm" radius="sm">
             <CardBody className="overflow-visible p-0 w-full">
                 <Image
-                    shadow="md"
-                    radius="none"
-                    width="100%"
+                    quality={60}
+                    width="100"
+                    height="100"
                     alt={product.name}
-                    className="w-full h-[140px] object-cover"
-                    src={product.img}
+                    className="w-full h-[180px] object-cover shadow-md"
+                    src={product.img ?? ""}
                 />
                 <div className="grid grid-cols-2 w-full h-full p-2">
                     <div>
