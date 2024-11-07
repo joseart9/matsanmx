@@ -6,7 +6,7 @@ import { Novedad } from '@/types/Novedades';
 
 export default function NovedadesCaroussel({ productsTendencia }: { productsTendencia: Novedad[] }) {
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full lg:h-[700px]">
             <Swiper
                 spaceBetween={10}
                 slidesPerView={1}
@@ -18,7 +18,7 @@ export default function NovedadesCaroussel({ productsTendencia }: { productsTend
                 {productsTendencia.map((product, index) => (
                     <SwiperSlide key={index}>
                         <img
-                            className="h-56 w-full rounded-md object-cover"
+                            className="h-56 w-full rounded-md object-cover lg:h-full"
                             src={product.img}
                             alt={`Novedad ${index + 1}`}
                         />
