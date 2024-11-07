@@ -23,7 +23,8 @@ export default function AdminProductos() {
         price: 10,
         img: "",
         discount: 0,
-        hasDiscount: false
+        hasDiscount: false,
+        stock: 0
     });
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,13 +78,14 @@ export default function AdminProductos() {
 
             // Resetea el formulario y la imagen
             setProduct({
-                productId: "",
+                productId: generateRandomId(),
                 name: "Nombre del Producto",
                 description: "Descripción del Producto",
                 price: 10,
                 img: "",
                 discount: 0,
-                hasDiscount: false
+                hasDiscount: false,
+                stock: 0
             });
             setImageFile(null);
             setImagePreviewURL(null);
@@ -132,6 +134,14 @@ export default function AdminProductos() {
                         value={product.description}
                         onChange={handleInputChange}
                         minRows={3}
+                        size="lg"
+                        color="warning"
+                    />
+                    <Input
+                        label="Stock"
+                        name="stock"
+                        value={product.stock?.toString() || ""}
+                        onChange={handleInputChange}
                         size="lg"
                         color="warning"
                     />

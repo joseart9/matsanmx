@@ -1,5 +1,5 @@
 "use client";
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, Image, CardHeader } from "@nextui-org/react";
 import Product from "@/types/Product";
 import EditModal from "./EditModal";
 import { useState } from "react";
@@ -13,6 +13,9 @@ export default function ProductCard({ product, refetch }: { product: Product; re
     return (
         <>
             <Card shadow="sm" radius="sm" className="w-full" isPressable onPress={() => setIsConfirmationOpen(true)}>
+                <CardHeader className="text-accent">
+                    Cantidad: {product.stock ?? 0}
+                </CardHeader>
                 <CardBody className="overflow-visible p-0 w-full">
                     <Image
                         shadow="md"

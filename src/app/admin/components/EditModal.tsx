@@ -20,6 +20,7 @@ export default function EditModal({ isOpen, onClose, producto, refetch }: EditMo
         setEditedProduct((prev) => ({
             ...prev,
             [name]: name === "price" || name === "discount" ? parseFloat(value) : value,
+            [name]: name === "stock" ? (value ? parseInt(value) : "") : value,
         }));
     };
 
@@ -93,6 +94,14 @@ export default function EditModal({ isOpen, onClose, producto, refetch }: EditMo
                                 label="Descripción"
                                 name="description"
                                 value={editedProduct.description}
+                                onChange={handleInputChange}
+                                size="lg"
+                                color="warning"
+                            />
+                            <Input
+                                label="Stock"
+                                name="stock"
+                                value={(editedProduct.stock ?? 0).toString()}
                                 onChange={handleInputChange}
                                 size="lg"
                                 color="warning"

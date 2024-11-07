@@ -18,10 +18,14 @@ export default function ProductCard({ product }: { product: Product }) {
     }, [cart, product.productId]);
 
     const incrementQuantity = () => {
-        const newQuantity = quantity + 1;
-        setQuantity(newQuantity);
-        const cartItem = { product, quantity: 1 };
-        addToCart(cartItem);
+        if (quantity < (product.stock ?? 0)) { // Verifica si hay stock disponible
+            const newQuantity = quantity + 1;
+            setQuantity(newQuantity);
+            const cartItem = { product, quantity: 1 };
+            addToCart(cartItem);
+        } else {
+            console.warn("No se puede agregar más del stock disponible");
+        }
     };
 
     const decrementQuantity = () => {
@@ -52,7 +56,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 />
                 <div className="grid grid-cols-2 w-full h-full p-2">
                     <div>
-                        <p className="text-sm font-bold line-clamp-3 text-accent">
+                        <p className="text-xs font-bold line-clamp-3 text-accent uppercase">
                             {product.name}
                         </p>
                         <div className="flex items-center space-x-1">
@@ -66,33 +70,41 @@ export default function ProductCard({ product }: { product: Product }) {
                             </p>
                         </div>
                     </div>
-                    {quantity > 0 ? (
-                        <div className="flex items-center justify-end">
-                            <DynamicButton isIconOnly onClick={decrementQuantity} size="sm" className="bg-transparent">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
-                                </svg>
-                            </DynamicButton>
-                            <span className="text-lg">{quantity}</span>
-                            <DynamicButton isIconOnly onClick={incrementQuantity} size="sm" className="bg-transparent">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                </svg>
-                            </DynamicButton>
-                        </div>
+                    {product.stock && product.stock > 0 ? (
+                        <>
+                            {quantity > 0 ? (
+                                <div className="flex items-center justify-end">
+                                    <DynamicButton isIconOnly onClick={decrementQuantity} size="sm" className="bg-transparent">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
+                                        </svg>
+                                    </DynamicButton>
+                                    <span className="text-lg">{quantity}</span>
+                                    <DynamicButton isIconOnly onClick={incrementQuantity} size="sm" className="bg-transparent">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </DynamicButton>
+                                </div>
+                            ) : (
+                                <div className="flex h-full w-full items-center justify-end">
+                                    <DynamicButton onClick={incrementQuantity} isIconOnly size="sm" className="flex bg-transparent">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                    </DynamicButton>
+                                </div>
+                            )}
+                        </>
                     ) : (
-                        <div className="flex h-full w-full items-center justify-end">
-                            <DynamicButton onClick={incrementQuantity} isIconOnly size="sm" className="flex bg-transparent">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                </svg>
-                            </DynamicButton>
+                        <div className="flex items-center justify-end">
+                            <span className="text-xs text-[#ff1616]">AGOTADO</span>
                         </div>
                     )}
                 </div>
             </CardBody>
             <CardFooter className="text-small">
-                <b className="text-default-400 text-md line-clamp-4 text-secondary">{product.description}</b>
+                <b className="text-xs line-clamp-4 text-secondary uppercase">{product.description}</b>
             </CardFooter>
         </Card>
     );

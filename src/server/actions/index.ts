@@ -10,12 +10,13 @@ import {
   where,
   doc,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import db from "@/db";
-import { Cart } from "@/types/Cart";
 import { Pedido } from "@/types/Pedido";
 import Product from "@/types/Product";
 import { Novedad, Novedades } from "@/types/Novedades";
+import { Cart } from "@/types/Cart";
 
 const firestore = getFirestore(db);
 
@@ -172,5 +173,77 @@ export async function fetchAllNovedades(): Promise<Novedad[]> {
   } catch (error) {
     console.error("Error al obtener las novedades:", error);
     throw error; // Lanza el error para manejo adicional si es necesario
+  }
+}
+
+export async function markPedidoAsCompleted(pedidoId: string) {
+  try {
+    // Referencia a la colección "pedidos"
+    const pedidosCollection = collection(firestore, "pedidos");
+
+    // Busca el pedido en Firestore usando el pedidoId
+    const pedidoQuery = query(pedidosCollection, where("id", "==", pedidoId));
+    const querySnapshot = await getDocs(pedidoQuery);
+
+    if (!querySnapshot.empty) {
+      // Obtén el primer documento que coincida con el pedidoId y actualiza el campo finalizado a true
+      const pedidoDoc = querySnapshot.docs[0];
+      await setDoc(
+        doc(firestore, "pedidos", pedidoDoc.id),
+        { finalizado: true },
+        { merge: true } // Usamos merge para que solo actualice el campo especificado sin sobrescribir el documento completo
+      );
+    } else {
+      console.error(`Pedido con ID ${pedidoId} no encontrado.`);
+      throw new Error("Pedido no encontrado en la base de datos.");
+    }
+  } catch (error) {
+    console.error("Error al actualizar el estado del pedido:", error);
+    throw error; // Lanza el error para manejo adicional si es necesario
+  }
+}
+
+export async function updateStockFromCart(cart: Cart) {
+  try {
+    // Recorre cada elemento en el carrito
+    for (const cartItem of cart.items) {
+      const { product, quantity } = cartItem;
+
+      // Verifica si el stock está definido para el producto
+      if (product.stock === undefined) {
+        console.log(`El producto ${product.name} no tiene stock definido.`);
+      }
+
+      // Busca el producto en la colección "productos" usando el productId
+      const productosCollection = collection(firestore, "productos");
+      const productQuery = query(
+        productosCollection,
+        where("productId", "==", product.productId)
+      );
+      const querySnapshot = await getDocs(productQuery);
+
+      if (!querySnapshot.empty) {
+        // Obtén el primer documento que coincida con el productId
+        const productDoc = querySnapshot.docs[0];
+        const productData = productDoc.data() as Product;
+
+        // Verifica si hay suficiente stock para restar la cantidad
+        if (productData.stock! < quantity) {
+          console.log("No hay suficiente stock para completar la compra.");
+        }
+
+        // Resta la cantidad al stock actual
+        const newStock = productData.stock! - quantity;
+
+        // Actualiza el stock en Firestore
+        await updateDoc(doc(firestore, "productos", productDoc.id), {
+          stock: newStock,
+        });
+      } else {
+        console.error(`Producto con ID ${product.productId} no encontrado.`);
+      }
+    }
+  } catch (error) {
+    console.error("Error al actualizar el stock:", error);
   }
 }

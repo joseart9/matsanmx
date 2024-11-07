@@ -5,9 +5,11 @@ import { addPedido } from "@/server/actions";
 import { useCart } from "@/providers/CartContext";
 import { Cart } from "@/types/Cart";
 import ConfirmationModal from "@/app/components/ConfirmationModal";
+import { updateStockFromCart } from "@/server/actions";
 
 export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const modalBodyRef = useRef<HTMLDivElement>(null);
+    const [confirmationNumber, setConfirmationNumber] = useState("");
 
     // Desplazamiento suave al hacer foco en un input
     useEffect(() => {
@@ -62,9 +64,10 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const customId = generateCustomId();
-
     const onSave = async (event: any) => {
+        const customId = generateCustomId();
+
+        console.log(customId);
         setLoading(true);
 
         const carrito: Cart = {
@@ -76,8 +79,14 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
 
 
         try {
+            setConfirmationNumber(customId);
             const pedidoToSave = { id: customId, ...formData, carrito };
             await addPedido(pedidoToSave);
+
+            // Quitar stock de los productos en el carrito
+
+            await updateStockFromCart(carrito);
+
             clearCart(); // Limpia el carrito después de confirmar
             onClose(); // Cierra el modal de confirmación de pedido
             setIsConfirmationOpen(true); // Abre el modal de confirmación
@@ -118,14 +127,14 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
             >
                 <ModalContent>
                     <ModalHeader className="flex flex-col gap-1">
-                        <h1 className="text-secondary">Confirmar Pedido</h1>
+                        <h1 className="text-secondary font-bold">Confirmar Pedido</h1>
                     </ModalHeader>
                     <ModalBody>
                         <div ref={modalBodyRef}>
 
 
                             <form onSubmit={onSave} className="flex flex-col space-y-2">
-                                <h1 className="text-secondary">Datos personales</h1>
+                                <h1 className="text-secondary p-4">Datos personales</h1>
                                 <Input
                                     variant="bordered"
                                     color="warning"
@@ -171,7 +180,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     onChange={handleInputChange}
                                     size="lg"
                                 />
-                                <h1 className="text-secondary">Direccion de envio</h1>
+                                <h1 className="text-secondary p-4">Direccion de envio</h1>
                                 <Input
                                     variant="bordered"
                                     color="warning"
@@ -230,11 +239,11 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                         </div>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" variant="flat" onPress={onClose}>
-                            Cerrar
+                        <Button color="primary" variant="flat" onPress={onClose} className="text-secondary">
+                            Cancelar
                         </Button>
-                        <Button color="secondary" type="submit" onPress={onSave} isLoading={loading}>
-                            Confirmar
+                        <Button color="secondary" type="submit" onPress={onSave} isLoading={loading} className="text-accent">
+                            Continuar
                         </Button>
                     </ModalFooter>
                 </ModalContent>
@@ -244,7 +253,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
             <ConfirmationModal
                 isOpen={isConfirmationOpen}
                 onClose={() => setIsConfirmationOpen(false)}
-                pedidoId={customId}
+                pedidoId={confirmationNumber}
             />
         </>
     );
