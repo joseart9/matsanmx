@@ -45,6 +45,7 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
                 if (!open) onClose();
             }}
             hideCloseButton
+            scrollBehavior="inside"
             isDismissable={false}
         >
             <ModalContent>
