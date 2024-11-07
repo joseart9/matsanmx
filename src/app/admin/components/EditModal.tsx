@@ -67,6 +67,7 @@ export default function EditModal({ isOpen, onClose, producto, refetch }: EditMo
             }}
             hideCloseButton
             isDismissable={false}
+            scrollBehavior="inside"
         >
             <ModalContent>
                 <>
