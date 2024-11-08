@@ -21,7 +21,7 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
         return acc + (producto.product.discount ?? 0) * producto.quantity;
     }, 0);
 
-    const total = subtotal && totalDiscount ? subtotal - totalDiscount : 0;
+    const total = (subtotal ?? 0) - (totalDiscount ?? 0);
 
     // Función para finalizar el pedido
     const completarPedido = async () => {
@@ -80,11 +80,14 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
 
                         <Divider />
                         <div className="text-accent">
-                            <p>{pedido?.primerNombre} {pedido?.segundoNombre} {pedido?.primerApellido} {pedido?.segundoApellido}</p>
+                            {/* <p>{pedido?.primerNombre} {pedido?.segundoNombre} {pedido?.primerApellido} {pedido?.segundoApellido}</p>
                             <p>{pedido?.telefono}</p>
                             <p>{pedido?.calle} {pedido?.numero} {pedido?.colonia}</p>
                             <p>{pedido?.ciudad}, {pedido?.estado}</p>
-                            <p>{pedido?.cp}</p>
+                            <p>{pedido?.cp}</p> */}
+                            <p>
+                                {pedido?.envio ? pedido?.envio === "tienda" ? "Recoger en Tienda" : "Entrega en Universidad" : "Sin especificar"}
+                            </p>
                         </div>
                     </ModalBody>
                     <ModalFooter>

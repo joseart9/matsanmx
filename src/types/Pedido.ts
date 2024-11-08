@@ -15,4 +15,5 @@ export interface Pedido {
   telefono?: string;
   carrito?: Cart;
   finalizado?: boolean;
+  envio?: string;
 }
