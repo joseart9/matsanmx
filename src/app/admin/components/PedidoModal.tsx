@@ -86,7 +86,7 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
                             <p>{pedido?.ciudad}, {pedido?.estado}</p>
                             <p>{pedido?.cp}</p> */}
                             <p>
-                                {pedido?.envio ? pedido?.envio === "tienda" ? "Recoger en Tienda" : "Entrega en Universidad" : "Sin especificar"}
+                                {pedido?.envio ? pedido?.envio === "tienda" ? "Recoger en Tienda" : "Entrega en Facultad Medicina" : "Sin especificar"}
                             </p>
                         </div>
                     </ModalBody>
