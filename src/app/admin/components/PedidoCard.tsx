@@ -7,11 +7,16 @@ import { useState } from "react";
 export default function PedidoCard(pedido?: Pedido) {
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
-    // Calcula el total acumulado de todos los productos
-    const totalPedido = pedido?.carrito?.items.reduce((acc, producto) => {
-        const productTotal = (producto.product.price - (producto.product.discount ?? 0)) * producto.quantity;
-        return acc + productTotal;
+    // Calcula subtotal, descuento total y total acumulado
+    const subtotal = pedido?.carrito?.items.reduce((acc, producto) => {
+        return acc + producto.product.price * producto.quantity;
     }, 0);
+
+    const totalDiscount = pedido?.carrito?.items.reduce((acc, producto) => {
+        return acc + (producto.product.discount ?? 0) * producto.quantity;
+    }, 0);
+
+    const total = (subtotal ?? 0) - (totalDiscount ?? 0);
 
     return (
         <>
@@ -43,7 +48,7 @@ export default function PedidoCard(pedido?: Pedido) {
                 </CardBody>
                 <Divider />
                 <CardFooter>
-                    <p className="text-md text-accent font-bold">Total: ${totalPedido?.toFixed(2)}</p>
+                    <p className="text-md text-accent font-bold">Total: ${total?.toFixed(2)}</p>
                 </CardFooter>
             </Card>
             <PedidoModal

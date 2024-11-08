@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import { Select, SelectSection, SelectItem } from "@nextui-org/select";
 import { addPedido } from "@/server/actions";
 import { useCart } from "@/providers/CartContext";
 import { Cart } from "@/types/Cart";
@@ -10,6 +11,18 @@ import { updateStockFromCart } from "@/server/actions";
 export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const modalBodyRef = useRef<HTMLDivElement>(null);
     const [confirmationNumber, setConfirmationNumber] = useState("");
+    const [tipoEnvio, setTipoEnvio] = useState("");
+
+    const envioOptions = [
+        {
+            label: "Recoger en Tienda",
+            key: "tienda"
+        },
+        {
+            label: "Recoger en Universidad",
+            key: "universidad"
+        }
+    ];
 
     // Desplazamiento suave al hacer foco en un input
     useEffect(() => {
@@ -50,7 +63,8 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
         estado: "",
         ciudad: "",
         cp: "",
-        finalizado: false
+        finalizado: false,
+        envio: ""
     });
     const [loading, setLoading] = useState(false);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -74,7 +88,6 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                 quantity: item.quantity
             })),
         };
-
 
         try {
             setConfirmationNumber(customId);
@@ -101,7 +114,8 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                 estado: "",
                 ciudad: "",
                 cp: "",
-                finalizado: false
+                finalizado: false,
+                envio: tipoEnvio
             });
         } catch (error) {
             console.error("Error al enviar el pedido:", error);
@@ -178,61 +192,20 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     onChange={handleInputChange}
                                     size="lg"
                                 />
-                                <h1 className="text-secondary p-4">Direccion de envio</h1>
-                                <Input
+                                <h1 className="text-secondary p-4">Envío</h1>
+                                <Select
+                                    label="Selecciona el tipo de envio"
                                     variant="bordered"
                                     color="warning"
-                                    name="calle"
-                                    label="Calle"
-                                    value={formData.calle}
-                                    onChange={handleInputChange}
-                                    size="lg"
-                                />
-                                <Input
-                                    variant="bordered"
-                                    color="warning"
-                                    name="numero"
-                                    label="Numero"
-                                    value={formData.numero}
-                                    onChange={handleInputChange}
-                                    size="lg"
-                                />
-                                <Input
-                                    variant="bordered"
-                                    color="warning"
-                                    name="colonia"
-                                    label="Colonia"
-                                    value={formData.colonia}
-                                    onChange={handleInputChange}
-                                    size="lg"
-                                />
-                                <Input
-                                    variant="bordered"
-                                    color="warning"
-                                    name="estado"
-                                    label="Estado"
-                                    value={formData.estado}
-                                    onChange={handleInputChange}
-                                    size="lg"
-                                />
-                                <Input
-                                    variant="bordered"
-                                    color="warning"
-                                    name="ciudad"
-                                    label="Ciudad"
-                                    value={formData.ciudad}
-                                    onChange={handleInputChange}
-                                    size="lg"
-                                />
-                                <Input
-                                    variant="bordered"
-                                    color="warning"
-                                    name="cp"
-                                    label="Codigo Postal"
-                                    value={formData.cp}
-                                    onChange={handleInputChange}
-                                    size="lg"
-                                />
+                                    selectedKeys={[formData.envio]}
+                                    onChange={(e) => setFormData({ ...formData, envio: (e.target as HTMLSelectElement).value })}
+                                >
+                                    {envioOptions.map((option) => (
+                                        <SelectItem key={option.key}>
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </Select>
                             </form>
                         </div>
                     </ModalBody>
