@@ -11,7 +11,6 @@ import { updateStockFromCart } from "@/server/actions";
 export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const modalBodyRef = useRef<HTMLDivElement>(null);
     const [confirmationNumber, setConfirmationNumber] = useState("");
-    const [tipoEnvio, setTipoEnvio] = useState("");
 
     const envioOptions = [
         {
@@ -19,7 +18,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
             key: "tienda"
         },
         {
-            label: "Recoger en Universidad",
+            label: "Recoger en Facultad de Medicina",
             key: "universidad"
         }
     ];
@@ -115,7 +114,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                 ciudad: "",
                 cp: "",
                 finalizado: false,
-                envio: tipoEnvio
+                envio: ""
             });
         } catch (error) {
             console.error("Error al enviar el pedido:", error);
