@@ -18,7 +18,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
             key: "tienda"
         },
         {
-            label: "Recoger en Facultad de Medicina",
+            label: "Recoger en Área Médica",
             key: "universidad"
         }
     ];
@@ -151,6 +151,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     color="warning"
                                     name="primerNombre"
                                     label="Nombre"
+                                    isRequired
                                     value={formData.primerNombre}
                                     onChange={handleInputChange}
                                     size="lg"
@@ -169,6 +170,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     color="warning"
                                     name="primerApellido"
                                     label="Apellido Paterno"
+                                    isRequired
                                     value={formData.primerApellido}
                                     onChange={handleInputChange}
                                     size="lg"
@@ -178,6 +180,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     color="warning"
                                     name="segundoApellido"
                                     label="Apellido Materno"
+                                    isRequired
                                     value={formData.segundoApellido}
                                     onChange={handleInputChange}
                                     size="lg"
@@ -187,6 +190,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     color="warning"
                                     name="telefono"
                                     label="Telefono"
+                                    isRequired
                                     value={formData.telefono}
                                     onChange={handleInputChange}
                                     size="lg"
@@ -195,6 +199,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                 <Select
                                     label="Selecciona el tipo de envio"
                                     variant="bordered"
+                                    isRequired
                                     color="warning"
                                     selectedKeys={[formData.envio]}
                                     onChange={(e) => setFormData({ ...formData, envio: (e.target as HTMLSelectElement).value })}
