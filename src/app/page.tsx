@@ -4,24 +4,27 @@ import Product from "@/types/Product";
 import NovedadesCaroussel from "@/app/components/NovedadesCaroussel";
 import Navbar from '@/app/components/Navbar'
 import { useProductos } from "@/hooks/useProductos";
-import { CircularProgress } from "@nextui-org/react";
 import EmptyProductsSVG from "./components/EmptyProductsSVG";
 import { useNovedades } from "@/hooks/useNovedades";
+import { Spinner } from "@nextui-org/react";
 
 export default function Home() {
   const { productos, loading, error } = useProductos();
   const { novedades, loading: loadingNovedades, error: errorNovedades } = useNovedades();
 
   if (loading || loadingNovedades) return (
-    <div className="flex min-h-screen w-full items-center justify-center">
-      <CircularProgress color="warning" size="lg" aria-label="Loading..." />
-    </div>
+    <>
+      <Navbar />
+      <div className="flex min-h-screen w-full items-center justify-center">
+        <Spinner color="warning" size="lg" aria-label="Loading..." />
+      </div>
+    </>
   );
 
   return (
     <main className="flex min-h-screen min-w-screen flex-col items-center bg-primary">
       <Navbar />
-      <section className="flex w-full h-fit p-1 bg-accent mt-16 items-center justify-between">
+      <section className="flex w-full h-fit p-1 bg-accent mt-16 md:px-10 items-center justify-between">
         <p className="text-primary text-xs ml-5 uppercase">
           ✈️ Envíos nacionales y locales
         </p>
@@ -50,7 +53,7 @@ export default function Home() {
       </section>
       <footer>
         <div className="flex w-full h-20 items-center justify-center">
-          <a href="https://www.instagram.com/araf.innovations/" className="text-secondary">Created by Araf Innovations 2024</a>
+          <a href="https://www.instagram.com/araf.innovations/" className="text-secondary">Powered by Araf Innovations 2024</a>
         </div>
       </footer>
     </main>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useProductos } from "@/hooks/useProductos";
 import ProductCardEdit from "@/app/admin/components/ProductCardEdit";
 import EditModal from "@/app/admin/components/EditModal";
-import { CircularProgress } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/react";
 import Product from "@/types/Product";
 
 export default function AdminProductos() {
@@ -13,7 +13,7 @@ export default function AdminProductos() {
 
     if (loading) return (
         <div className="flex min-h-screen w-full items-center justify-center">
-            <CircularProgress color="warning" size="lg" aria-label="Loading..." />
+            <Spinner color="warning" size="lg" aria-label="Loading..." />
         </div>
     );
 
@@ -27,7 +27,7 @@ export default function AdminProductos() {
     };
 
     return (
-        <section className="flex flex-col min-h-screen w-screen bg-primary">
+        <section className="flex flex-col min-h-screen w-full bg-primary">
             <h1 className="flex text-2xl mt-1 text-accent items-center justify-center">
                 Productos
             </h1>

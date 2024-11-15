@@ -29,7 +29,36 @@ export default function App() {
 
     return (
         <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-secondary">
-            <NavbarContent>
+            <NavbarContent className="hidden sm:flex gap-4" justify="center">
+                <NavbarBrand className="space-x-5 items-center">
+                    <p className="text-xl uppercase">
+                    </p>
+                    <img src="/logo.svg" alt="Logo" className="h-16 w-auto" />
+                </NavbarBrand>
+            </NavbarContent>
+
+            <NavbarContent className="hidden sm:flex gap-4" justify="center">
+                {menuItems.map((item, index) => (
+                    <NavbarItem key={`${item}-${index}`}>
+                        <Button
+                            size="lg"
+                            variant="light"
+                            color="warning"
+                            radius="full"
+                            className="uppercase"
+                        >
+                            <Link href={item.href}>
+                                {item.label}
+                            </Link>
+                        </Button>
+                    </NavbarItem>
+                ))}
+            </NavbarContent>
+
+
+
+
+            <NavbarContent className="sm:hidden pr-3" justify="center">
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     className="sm:hidden"
@@ -39,6 +68,7 @@ export default function App() {
 
                 <NavbarBrand>
                     <img src="/logo.svg" alt="logo" className="w-auto h-16" />
+
                 </NavbarBrand>
             </NavbarContent>
 

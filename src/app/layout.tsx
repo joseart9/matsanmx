@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Cardo } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/providers'
+import { ProvidersNextUI } from "./providers";
 
 
 const inter = Cardo({ subsets: ['latin'], weight: "400" })
@@ -26,10 +27,12 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={inter.className}>
-        <Providers>
-          {children}
-        </Providers>
-      </body>
+        <ProvidersNextUI>
+          <Providers>
+            {children}
+          </Providers>
+        </ProvidersNextUI>
+      </body >
     </html >
   )
 }

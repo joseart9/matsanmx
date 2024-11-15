@@ -103,7 +103,7 @@ export default function AdminProductos() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen w-screen bg-primary">
+        <div className="flex flex-col min-h-screen w-full bg-primary">
             <input
                 type="file"
                 accept="image/*"
@@ -136,6 +136,7 @@ export default function AdminProductos() {
                         minRows={3}
                         size="lg"
                         color="warning"
+
                     />
                     <Input
                         label="Stock"
