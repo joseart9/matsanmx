@@ -1,103 +1,73 @@
 "use client";
-import { useState } from "react";
-import { Button } from "@nextui-org/react";
+import { useState, useEffect } from "react";
+import { Button, Spinner } from "@nextui-org/react";
 import { addNovedades } from "@/server/actions";
-import { Novedad } from "@/types/Novedades";
+import { Novedad, Novedades } from "@/types/Novedades";
+import ImageUpload from "@/app/admin/components/ImageUpload";
+import { useNovedades } from "@/hooks/useNovedades";
+import { CustomImg } from "@/types/CustomImg";
+import { uploadImageToImgBB } from "@/utils/UploadImgToDb";
 
 export default function AdminNovedades() {
-    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-    const [previews, setPreviews] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
-    const [novedades, setNovedades] = useState<Novedad[]>([]);
+    const { novedades, loading: loadingNovedades, error: errorNovedades } = useNovedades();
+    const [images, setImages] = useState<File[]>([null as any]);
+    const [imagesSaved, setImagesSaved] = useState<CustomImg[]>([]);
+    const [novedadesToSave, setNovedadesToSave] = useState<Novedad[]>([])
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || []);
-        setSelectedFiles(files);
-
-        const filePreviews = files.map((file) => URL.createObjectURL(file));
-        setPreviews(filePreviews);
-    };
-
-    const uploadImageToImgBB = async (file: File) => {
-        const formData = new FormData();
-        formData.append("image", file);
-
-        try {
-            const response = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMG_BB_KEY}`, {
-                method: "POST",
-                body: formData,
-            });
-            const data = await response.json();
-            if (data.success) {
-                return data.data.url;
-            } else {
-                throw new Error("Error al subir la imagen a ImgBB");
-            }
-        } catch (error) {
-            console.error("Error al subir la imagen:", error);
-            throw error;
-        }
-    };
+    useEffect(() => {
+        setImagesSaved(novedades);
+    }, [novedades]);
 
     const handleUpload = async () => {
-        setLoading(true);
-        const novedadesList: Novedad[] = [];
+        const uploadedImages = await Promise.all(
+            images.map(async (image) => {
+                if (image !== null) {
+                    const imgData = await uploadImageToImgBB(image);
+                    return { id: imgData.id, img: imgData.img } as CustomImg;
+                }
+                return null;
+            })
+        );
+
+        // Filtrar imágenes válidas
+        const validImages = uploadedImages.filter((img) => img !== null) as CustomImg[];
+        if (images) {
+            validImages.push(...imagesSaved);
+        }
+
+        // Crea un objeto con las novedades a guardar en la db usando las imagenes
+        // ya guardadas y las nuevas
+        setNovedadesToSave(validImages);
 
         try {
-            for (const file of selectedFiles) {
-                const imageUrl = await uploadImageToImgBB(file);
-                const novedad: Novedad = {
-                    id: `nov${Date.now()}`,
-                    img: imageUrl,
-                };
-                novedadesList.push(novedad);
-            }
-
-            await addNovedades({ novedad: novedadesList });
-            setNovedades([...novedades, ...novedadesList]);
-            setSelectedFiles([]);
-            setPreviews([]);
+            setLoading(true);
+            await addNovedades({ novedad: validImages as unknown as Novedad[] });
+            setLoading(false);
         } catch (error) {
-            console.error("Error al subir novedades:", error);
-        } finally {
+            console.error("Error al subir las novedades:", error);
             setLoading(false);
         }
+
     };
 
+    console.log(novedadesToSave);
+
+    if (loadingNovedades) return (
+        <div className="flex min-h-screen w-full items-center justify-center">
+            <Spinner color="warning" size="lg" aria-label="Loading..." />
+        </div>
+    );
+
     return (
-        <section className="flex flex-col min-h-screen w-screen bg-primary">
+        <section className="flex flex-col min-h-screen overflow-auto overflow-y-hidden w-full bg-primary">
             <h1 className="flex text-2xl mt-1 text-accent items-center justify-center">
                 Novedades
             </h1>
-            <h2 className="flex w-full text-center">
-                Cada que se suban imagenes aqui, se eliminaran las anteriores y se subiran las nuevas.
-            </h2>
-            <div className="p-4 gap-2 flex flex-col w-full max-w-md mx-auto">
-                <label htmlFor="fileInput" className="cursor-pointer text-blue-500 underline">
-                    Seleccionar imágenes
-                </label>
-                <input
-                    id="fileInput"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    multiple
-                    className="hidden"
-                />
-                <div className="grid grid-cols-2 gap-2 mt-4">
-                    {previews.map((preview, index) => (
-                        <div key={index} className="relative">
-                            <img src={preview} alt={`Preview ${index}`} className="w-full h-32 object-cover" />
-                        </div>
-                    ))}
-                </div>
-                <Button
-                    onClick={handleUpload}
-                    disabled={loading || selectedFiles.length === 0}
-                    className={`mt-4 ${loading ? "opacity-50" : ""}`}
-                    color="warning"
-                >
-                    {loading ? "Subiendo..." : "Guardar Novedades"}
+            <ImageUpload images={images} setImages={setImages} imagesSaved={imagesSaved} setImagesSaved={setImagesSaved} />
+            <div className="overflow-y-hidden pt-5 w-full flex justify-end pr-5">
+                <Button className="text-primary" color="warning" onPress={handleUpload} isLoading={loading}>
+                    Guardar
                 </Button>
             </div>
         </section>

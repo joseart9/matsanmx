@@ -19,6 +19,7 @@ export default function ProductCard({ product, onImageClick }: { product: Produc
                         alt={product.name}
                         className="w-full h-[140px] object-cover"
                         src={product.img || "https://via.placeholder.com/150"}
+                        loading="lazy"
                     />
                 </div>
                 <div className="grid grid-cols-2 w-full h-full p-2">

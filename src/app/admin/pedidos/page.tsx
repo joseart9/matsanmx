@@ -1,7 +1,7 @@
 "use client";
 
 import { usePedidos } from "@/hooks/usePedidos";
-import { CircularProgress } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/react";
 import PedidoCard from "@/app/admin/components/PedidoCard";
 
 export default function AdminPedidos() {
@@ -9,7 +9,7 @@ export default function AdminPedidos() {
 
     if (loading) return (
         <div className="flex min-h-screen w-full items-center justify-center">
-            <CircularProgress color="warning" size="lg" aria-label="Loading..." />
+            <Spinner color="warning" size="lg" aria-label="Loading..." />
         </div>
     );
 
@@ -17,7 +17,7 @@ export default function AdminPedidos() {
     const pedidosNoFinalizados = pedidos.filter((pedido) => !pedido.finalizado);
 
     return (
-        <section className="flex flex-col min-h-screen w-screen bg-primary">
+        <section className="flex flex-col min-h-screen w-full bg-primary">
             <h1 className="flex text-2xl mt-1 text-accent items-center justify-center">
                 Pedidos
             </h1>
