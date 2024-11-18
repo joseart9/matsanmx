@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider, Link, Image } from "@nextui-org/react";
 import { Pedido } from "@/types/Pedido";
 import { markPedidoAsCompleted } from "@/server/actions";
 
@@ -57,7 +57,7 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
                     <ModalBody>
                         {pedido?.carrito?.items.map((producto) => (
                             <div key={producto.product.productId} className="flex gap-3 items-center">
-                                <img
+                                <Image
                                     width="50px"
                                     height="50px"
                                     src={producto.product.img}
@@ -80,11 +80,26 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
 
                         <Divider />
                         <div className="text-accent">
-                            {/* <p>{pedido?.primerNombre} {pedido?.segundoNombre} {pedido?.primerApellido} {pedido?.segundoApellido}</p>
-                            <p>{pedido?.telefono}</p>
-                            <p>{pedido?.calle} {pedido?.numero} {pedido?.colonia}</p>
+                            <p>
+                                <strong>Información del Cliente</strong>
+                            </p>
+                            <p>{pedido?.primerNombre} {pedido?.segundoNombre} {pedido?.primerApellido} {pedido?.segundoApellido}</p>
+                            <Link
+                                isExternal
+                                showAnchorIcon
+                                href={`tel:${pedido?.telefono}`}
+                                className="text-accent"
+                            >
+                                {pedido?.telefono}
+                            </Link>
+                            {/* <p>{pedido?.calle} {pedido?.numero} {pedido?.colonia}</p>
                             <p>{pedido?.ciudad}, {pedido?.estado}</p>
                             <p>{pedido?.cp}</p> */}
+                            <br />
+                            <br />
+                            <p>
+                                <strong>Información del Envío</strong>
+                            </p>
                             <p>
                                 {pedido?.envio ? pedido?.envio === "tienda" ? "Recoger en Tienda" : "Entrega en Facultad Medicina" : "Sin especificar"}
                             </p>

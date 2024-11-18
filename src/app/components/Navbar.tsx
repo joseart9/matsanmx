@@ -3,7 +3,7 @@
 import React from "react";
 import { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Divider } from "@nextui-org/react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 import { Button as IconButton } from "@nextui-org/button";
 import { CartItem } from "@/types/Cart";
 import { useCart } from "@/providers/CartContext";
