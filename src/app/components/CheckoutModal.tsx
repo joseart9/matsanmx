@@ -78,6 +78,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
     };
 
     const onSave = async (event: any) => {
+        event.preventDefault();
         const customId = generateCustomId();
         setLoading(true);
 
@@ -121,6 +122,10 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
         } finally {
             setLoading(false);
         }
+
+        console.log("Pedido guardado", customId);
+        const pedidoToSave = { id: customId, ...formData, carrito };
+        console.log("Pedido", pedidoToSave);
     };
 
     return (
@@ -152,6 +157,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     name="primerNombre"
                                     label="Nombre"
                                     isRequired
+                                    required
                                     value={formData.primerNombre}
                                     onChange={handleInputChange}
                                     size="lg"
@@ -174,6 +180,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     value={formData.primerApellido}
                                     onChange={handleInputChange}
                                     size="lg"
+                                    required
                                 />
                                 <Input
                                     variant="bordered"
@@ -184,25 +191,31 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     value={formData.segundoApellido}
                                     onChange={handleInputChange}
                                     size="lg"
+                                    required
                                 />
                                 <Input
                                     variant="bordered"
                                     color="warning"
                                     name="telefono"
-                                    label="Telefono"
+                                    label="Teléfono"
                                     isRequired
                                     value={formData.telefono}
                                     onChange={handleInputChange}
                                     size="lg"
+                                    required
                                 />
                                 <h1 className="text-secondary p-4">Envío</h1>
                                 <Select
-                                    label="Selecciona el tipo de envio"
+                                    label="Selecciona el tipo de envío"
                                     variant="bordered"
                                     isRequired
                                     color="warning"
                                     selectedKeys={[formData.envio]}
-                                    onChange={(e) => setFormData({ ...formData, envio: (e.target as HTMLSelectElement).value })}
+                                    onSelectionChange={(keys) => {
+                                        const selectedKey = Array.from(keys)[0] as string;
+                                        setFormData({ ...formData, envio: selectedKey });
+                                    }}
+                                    required
                                 >
                                     {envioOptions.map((option) => (
                                         <SelectItem key={option.key}>
@@ -210,17 +223,17 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                         </SelectItem>
                                     ))}
                                 </Select>
+                                <ModalFooter>
+                                    <Button color="primary" variant="flat" onPress={onClose} className="text-secondary">
+                                        Cancelar
+                                    </Button>
+                                    <Button color="secondary" type="submit" onPress={onSave} isLoading={loading} className="text-accent">
+                                        Continuar
+                                    </Button>
+                                </ModalFooter>
                             </form>
                         </div>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" variant="flat" onPress={onClose} className="text-secondary">
-                            Cancelar
-                        </Button>
-                        <Button color="secondary" type="submit" onPress={onSave} isLoading={loading} className="text-accent">
-                            Continuar
-                        </Button>
-                    </ModalFooter>
                 </ModalContent>
             </Modal>
 
