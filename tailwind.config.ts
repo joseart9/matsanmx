@@ -9,17 +9,19 @@ const config: Config = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
-    colors: {
-      primary: "#FFEDDB",
-      secondary: "#E3B7A0",
-      accent: "#54473F",
-      red: "#FF0000",
+    extend: {
+      colors: {
+        primary: "#FFEDDB",
+        secondary: "#E3B7A0",
+        accent: "#54473F",
+        red: "#FF0000",
+      },
     },
   },
   darkMode: "class",
   plugins: [
     nextui({
+      addCommonColors: false, // evita sobrescribir colores comunes de Tailwind (e.g. "blue").
       themes: {
         light: {
           colors: {
