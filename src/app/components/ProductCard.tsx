@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter } from "@nextui-org/react";
+import { Button, Card, CardBody, CardFooter, Modal, ModalContent, useDisclosure } from "@nextui-org/react";
 import Image from 'next/image'
 import dynamic from 'next/dynamic';
 import Product from "@/types/Product";
@@ -11,6 +11,7 @@ const DynamicButton = dynamic(() => import('@nextui-org/button').then(mod => mod
 export default function ProductCard({ product }: { product: Product }) {
     const [quantity, setQuantity] = useState(0);
     const { cart, addToCart, updateQuantity, removeFromCart } = useCart();
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     // Load product quantity from localStorage on mount
     useEffect(() => {
@@ -52,8 +53,9 @@ export default function ProductCard({ product }: { product: Product }) {
                     width="100"
                     height="100"
                     alt={product.name}
-                    className="w-full h-[150px] object-cover shadow-md"
+                    className="w-full h-[150px] object-cover shadow-md cursor-pointer"
                     src={product.img ?? ""}
+                    onClick={onOpen}
                 />
                 <div className="grid grid-cols-2 w-full h-full p-2">
                     <div>
@@ -107,6 +109,19 @@ export default function ProductCard({ product }: { product: Product }) {
             <CardFooter className="text-small">
                 <b className="text-xs line-clamp-4 text-secondary uppercase">{product.description}</b>
             </CardFooter>
+
+            <Modal size="full" isOpen={isOpen} onOpenChange={onOpenChange} classNames={{
+                closeButton: 'text-white bg-primary/30 hover:bg-primary/50',
+            }}>
+                <ModalContent className="flex items-center justify-center h-screen gap-2 bg-black/60">
+                    <h3 className="text-white font-semibold capitalize">
+                        {product.name}
+                    </h3>
+                    <div className="w-3/4 h-3/4 flex items-center justify-center">
+                        <img src={product.img} alt={product.name} className="max-w-full max-h-full object-contain" />
+                    </div>
+                </ModalContent>
+            </Modal>
         </Card>
     );
 }
