@@ -118,7 +118,7 @@ export default function ProductCard({ product }: { product: Product }) {
                         {product.name}
                     </h3>
                     <div className="w-3/4 h-3/4 flex items-center justify-center">
-                        <img src={product.img} alt={product.name} className="max-w-full max-h-full object-contain" />
+                        <img src={product.img} alt={product.name} onClick={onOpenChange} className="max-w-full max-h-full object-contain" />
                     </div>
                 </ModalContent>
             </Modal>
