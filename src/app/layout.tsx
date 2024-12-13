@@ -4,6 +4,8 @@ import './globals.css'
 import { Providers } from '@/providers'
 import { ProvidersNextUI } from "./providers";
 
+import { Analytics } from "@vercel/analytics/react"
+
 
 const inter = Cardo({ subsets: ['latin'], weight: "400" })
 
@@ -27,6 +29,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={inter.className}>
+        <Analytics />
         <ProvidersNextUI>
           <Providers>
             {children}
