@@ -11,6 +11,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  limit,
 } from "firebase/firestore";
 import db from "@/db";
 import { Pedido } from "@/types/Pedido";
@@ -51,8 +52,11 @@ export async function fetchAllProductos(): Promise<Product[]> {
     // Referencia a la colección "productos"
     const productosCollection = collection(firestore, "productos");
 
-    // Obtén todos los documentos de la colección
-    const querySnapshot = await getDocs(productosCollection);
+    // Crea una consulta con límite de 5
+    const limitedQuery = query(productosCollection);
+
+    // Obtén los documentos de la consulta limitada
+    const querySnapshot = await getDocs(limitedQuery);
 
     // Mapea los documentos a objetos de tipo Product
     const productos = querySnapshot.docs.map((doc) => ({

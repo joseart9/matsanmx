@@ -140,6 +140,7 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                 isDismissable={false}
                 size="sm"
                 hideCloseButton
+                className="bg-[#FFF9F0]"
             >
                 <ModalContent>
                     <ModalHeader className="flex flex-col gap-1">
@@ -161,6 +162,13 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     value={formData.primerNombre}
                                     onChange={handleInputChange}
                                     size="lg"
+                                    classNames={{
+                                        inputWrapper: [
+                                            "border-primary",
+                                            "hover:border-primary",
+                                            "focus:border-primary"
+                                        ]
+                                    }}
                                 />
                                 <Input
                                     variant="bordered"
@@ -170,6 +178,13 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     value={formData.segundoNombre}
                                     onChange={handleInputChange}
                                     size="lg"
+                                    classNames={{
+                                        inputWrapper: [
+                                            "border-primary",
+                                            "hover:border-primary",
+                                            "focus:border-primary"
+                                        ]
+                                    }}
                                 />
                                 <Input
                                     variant="bordered"
@@ -181,6 +196,13 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     onChange={handleInputChange}
                                     size="lg"
                                     required
+                                    classNames={{
+                                        inputWrapper: [
+                                            "border-primary",
+                                            "hover:border-primary",
+                                            "focus:border-primary"
+                                        ]
+                                    }}
                                 />
                                 <Input
                                     variant="bordered"
@@ -192,6 +214,13 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     onChange={handleInputChange}
                                     size="lg"
                                     required
+                                    classNames={{
+                                        inputWrapper: [
+                                            "border-primary",
+                                            "hover:border-primary",
+                                            "focus:border-primary"
+                                        ]
+                                    }}
                                 />
                                 <Input
                                     variant="bordered"
@@ -203,19 +232,34 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     onChange={handleInputChange}
                                     size="lg"
                                     required
+                                    classNames={{
+                                        inputWrapper: [
+                                            "border-primary",
+                                            "hover:border-primary",
+                                            "focus:border-primary"
+                                        ]
+                                    }}
                                 />
-                                <h1 className="text-secondary p-4">Envío</h1>
+                                <h1 className="text-secondary p-4">Entrega</h1>
                                 <Select
-                                    label="Selecciona el tipo de envío"
+                                    label="Tipo de entrega"
                                     variant="bordered"
                                     isRequired
                                     color="warning"
+                                    size="lg"
                                     selectedKeys={[formData.envio]}
                                     onSelectionChange={(keys) => {
                                         const selectedKey = Array.from(keys)[0] as string;
                                         setFormData({ ...formData, envio: selectedKey });
                                     }}
                                     required
+                                    classNames={{
+                                        listboxWrapper: [
+                                            "border-primary",
+                                            "hover:border-primary",
+                                            "focus:border-primary"
+                                        ],
+                                    }}
                                 >
                                     {envioOptions.map((option) => (
                                         <SelectItem key={option.key}>
@@ -224,10 +268,10 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                                     ))}
                                 </Select>
                                 <ModalFooter>
-                                    <Button color="primary" variant="flat" onPress={onClose} className="text-secondary">
+                                    <Button radius="full" color="primary" variant="flat" onPress={onClose} className="text-secondary font-semibold">
                                         Cancelar
                                     </Button>
-                                    <Button color="secondary" type="submit" onPress={onSave} isLoading={loading} className="text-accent">
+                                    <Button className="font-semibold text-accent/80" radius="full" color="secondary" type="submit" onPress={onSave} isLoading={loading}>
                                         Continuar
                                     </Button>
                                 </ModalFooter>

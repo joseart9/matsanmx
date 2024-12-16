@@ -6,6 +6,11 @@ import dynamic from 'next/dynamic';
 import Product from "@/types/Product";
 import { useCart } from "@/providers/CartContext";
 
+import Alert from "@/utils/Alert";
+
+import { FaPlus } from "react-icons/fa6";
+import { FaMinus } from "react-icons/fa6";
+
 const DynamicButton = dynamic(() => import('@nextui-org/button').then(mod => mod.Button), { ssr: false });
 
 export default function ProductCard({ product }: { product: Product }) {
@@ -26,7 +31,7 @@ export default function ProductCard({ product }: { product: Product }) {
             const cartItem = { product, quantity: 1 };
             addToCart(cartItem);
         } else {
-            console.warn("No se puede agregar más del stock disponible");
+            Alert("Lo sentimos, por el momento no hay mas stock de este producto.", "error", "bottom-right", "quantityWarning");
         }
     };
 
@@ -46,20 +51,19 @@ export default function ProductCard({ product }: { product: Product }) {
         : product.price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
     return (
-        <Card shadow="sm" radius="sm">
+        <Card shadow="none" radius="none" className="w-[250px] h-[440px] bg-transparent">
             <CardBody className="overflow-visible p-0 w-full">
-                <Image
-                    quality={100}
-                    width="100"
-                    height="100"
-                    alt={product.name}
-                    className="w-full h-[150px] object-cover shadow-md cursor-pointer"
-                    src={product.img ?? ""}
-                    onClick={onOpen}
-                />
-                <div className="grid grid-cols-2 w-full h-full p-2">
-                    <div>
-                        <p className="text-xs font-bold line-clamp-3 text-accent uppercase">
+                <div className="w-[250px] h-[250px]">
+                    <img
+                        src={product.img ?? ""}
+                        alt={product.name}
+                        className="w-full h-full object-cover aspect-[1/1] object-center cursor-pointer"
+                        onClick={onOpen}
+                    />
+                </div>
+                <div className="grid grid-cols-12 w-full h-full p-2">
+                    <div className="col-span-8">
+                        <p className="text-md font-bold line-clamp-3 text-accent uppercase">
                             {product.name}
                         </p>
                         <div className="flex items-center space-x-1">
@@ -68,52 +72,48 @@ export default function ProductCard({ product }: { product: Product }) {
                                     ${product.price}
                                 </p>
                             )}
-                            <p className="text-default-800">
+                            <p className="text-default-800 text-lg">
                                 ${discountedPrice}
                             </p>
                         </div>
                     </div>
                     {product.stock && product.stock > 0 ? (
-                        <>
+                        <div className="col-span-4 w-full h-full items-center justify-end">
                             {quantity > 0 ? (
                                 <div className="flex items-center justify-end">
                                     <DynamicButton isIconOnly onClick={decrementQuantity} size="sm" className="bg-transparent">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
-                                        </svg>
+                                        <FaMinus className="size-4" />
                                     </DynamicButton>
-                                    <span className="text-lg">{quantity}</span>
+                                    <span className="text-lg font-black">{quantity}</span>
                                     <DynamicButton isIconOnly onClick={incrementQuantity} size="sm" className="bg-transparent">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                        </svg>
+                                        <FaPlus className="size-4" />
                                     </DynamicButton>
                                 </div>
                             ) : (
-                                <div className="flex h-full w-full items-center justify-end">
+                                <div className="flex items-center justify-end">
                                     <DynamicButton onClick={incrementQuantity} isIconOnly size="sm" className="flex bg-transparent">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                        </svg>
+                                        <FaPlus className="size-4" />
                                     </DynamicButton>
                                 </div>
                             )}
-                        </>
+                        </div>
                     ) : (
-                        <div className="flex items-center justify-end">
-                            <span className="text-xs text-[#ff1616]">AGOTADO</span>
+                        <div className="flex mt-2 justify-end col-span-4">
+                            <span className="text-xs text-red-500 font-semibold">AGOTADO</span>
                         </div>
                     )}
                 </div>
             </CardBody>
-            <CardFooter className="text-small">
-                <b className="text-xs line-clamp-4 text-secondary uppercase">{product.description}</b>
+            <CardFooter className="flex items-start">
+                <b className="text-sm line-clamp-4 text-secondary uppercase">
+                    {product.description}
+                </b>
             </CardFooter>
 
             <Modal size="full" isOpen={isOpen} onOpenChange={onOpenChange} classNames={{
                 closeButton: 'text-white bg-primary/30 hover:bg-primary/50',
             }}>
-                <ModalContent className="flex items-center justify-center h-screen gap-2 bg-black/60">
+                <ModalContent className="flex items-center justify-center h-screen mt-9 gap-2 bg-black/60">
                     <h3 className="text-white font-semibold capitalize">
                         {product.name}
                     </h3>
