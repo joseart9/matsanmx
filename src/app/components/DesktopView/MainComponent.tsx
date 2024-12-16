@@ -22,7 +22,7 @@ export default function Home() {
     );
 
     return (
-        <main className="flex min-h-screen min-w-screen flex-col items-center bg-primary/35">
+        <main className="flex min-h-screen min-w-screen flex-col items-center bg-[#FFF6E9]">
             <Navbar />
 
 
@@ -39,7 +39,7 @@ export default function Home() {
             </section>
 
 
-            <section className="container mx-auto flex w-full h-full flex-col bg-primary/35 max-w-7xl">
+            <section className="container mx-auto flex w-full h-full flex-col bg-[#FFF6E9] max-w-7xl">
                 <h1 className="text-2xl text-center font-black text-accent tracking-wide my-5">NUEVA COLECCIÓN</h1>
                 <section
                     style={{

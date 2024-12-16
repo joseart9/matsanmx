@@ -22,7 +22,7 @@ export default function Home() {
     );
 
     return (
-        <main className="flex min-h-screen min-w-screen flex-col items-center bg-primary/35">
+        <main className="flex min-h-screen min-w-screen flex-col items-center bg-[#FFF6E9]">
             <Navbar />
             <section className="flex w-full h-fit p-1 px-3 bg-accent mt-16 md:px-10 items-center justify-between">
                 <p className="text-primary text-xs ml-5 uppercase">
@@ -32,7 +32,7 @@ export default function Home() {
                     <img src="/instagram.svg" alt="Argentina" className="text-primary fill-primary w-5 h-5 mr-5" />
                 </a>
             </section>
-            <section className="flex w-full h-full flex-col p-2 bg-primary/35 mt-2 lg:mt-4">
+            <section className="flex w-full h-full flex-col p-2 bg-[#FFF6E9] mt-2 lg:mt-4">
                 <section className="flex flex-col w-full h-full">
                     <h1 className="text-2xl text-center font-light p-1 text-accent tracking-wide mb-5">NUEVA COLECCI&Oacute;N</h1>
                     <NovedadesCaroussel productsTendencia={novedades} />
