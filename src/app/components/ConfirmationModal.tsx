@@ -17,6 +17,7 @@ export default function ConfirmationModal({ isOpen, onClose, pedidoId }: Confirm
             }}
             hideCloseButton
             isDismissable={false}
+            className="bg-[#FFF9F0]"
         >
             <ModalContent>
                 <>
