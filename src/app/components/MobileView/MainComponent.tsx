@@ -15,7 +15,7 @@ export default function Home() {
     if (loading || loadingNovedades) return (
         <>
             <Navbar />
-            <div className="flex min-h-screen w-full items-center justify-center">
+            <div className="flex min-h-screen w-full items-center justify-center bg-[#FFF6E9]">
                 <Spinner color="warning" size="lg" aria-label="Loading..." />
             </div>
         </>
@@ -51,9 +51,21 @@ export default function Home() {
                     )}
                 </section>
             </section>
-            <footer>
-                <div className="flex w-full h-20 items-center justify-center">
-                    <a href="https://www.instagram.com/araf.innovations/" className="text-secondary">Powered by Araf Innovations 2024</a>
+            <footer className="bg-secondary w-full mt-10 flex h-24 justify-start px-6 py-4">
+                <div className="flex flex-row gap-4 items-center">
+                    <img
+                        src="/logo.svg"
+                        alt="MatsanMX"
+                        className="w-20 h-20"
+                    />
+                    <div className="flex flex-col gap-2 text-start">
+                        <h3 className="text-accent text-md font-semibold">
+                            MatsanMX
+                        </h3>
+                        <a href="https://www.instagram.com/araf.innovations/" className="text-accent/70 font-semibold text-md">
+                            Powered by Araf Innovations 2024
+                        </a>
+                    </div>
                 </div>
             </footer>
         </main>

@@ -11,6 +11,8 @@ import Alert from "@/utils/Alert";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
 
+import { IoMdClose } from "react-icons/io";
+
 const DynamicButton = dynamic(() => import('@nextui-org/button').then(mod => mod.Button), { ssr: false });
 
 export default function ProductCard({ product }: { product: Product }) {
@@ -54,11 +56,14 @@ export default function ProductCard({ product }: { product: Product }) {
         <Card shadow="none" radius="none" className="w-auto h-[350px] bg-transparent">
             <CardBody className="overflow-visible p-0 w-full">
                 <div className="w-auto h-[200px]">
-                    <img
+                    <Image
                         src={product.img ?? ""}
                         alt={product.name}
+                        width={250}
+                        height={250}
                         className="w-full h-full object-cover aspect-[1/1] object-center cursor-pointer"
                         onClick={onOpen}
+                        loading="lazy"
                     />
                 </div>
                 <div className="grid grid-cols-12 w-full h-fit p-2">
@@ -110,13 +115,17 @@ export default function ProductCard({ product }: { product: Product }) {
                 </b>
             </CardFooter>
 
-            <Modal size="full" isOpen={isOpen} onOpenChange={onOpenChange} classNames={{
-                closeButton: 'text-white bg-primary/30 hover:bg-primary/50',
-            }}>
-                <ModalContent className="flex items-center justify-center h-screen gap-2 bg-black/60">
-                    <h3 className="text-white font-semibold capitalize">
-                        {product.name}
-                    </h3>
+            <Modal size="full" className="h-screen" isOpen={isOpen} onOpenChange={onOpenChange} hideCloseButton>
+                <ModalContent className="flex items-center justify-center h-screen min-h-screen absolute gap-2 bg-black/60">
+                    <div className="flex flex-row items-center">
+                        <h3 className="text-white font-semibold capitalize">
+                            {product.name}
+                        </h3>
+                        <Button isIconOnly variant="light" color="primary" className="text-white relative fixed top-5 right-5" onClick={onOpenChange}>
+                            <IoMdClose className="size-7" />
+                        </Button>
+                    </div>
+
                     <div className="w-3/4 h-3/4 flex items-center justify-center">
                         <img src={product.img} alt={product.name} onClick={onOpenChange} className="max-w-full max-h-full object-contain" />
                     </div>
