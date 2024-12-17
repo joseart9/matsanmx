@@ -7,7 +7,7 @@ import { Novedad } from '@/types/Novedades';
 
 export default function NovedadesCaroussel({ productsTendencia }: { productsTendencia: Novedad[] }) {
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full z-0">
             <Swiper
                 spaceBetween={10}
                 slidesPerView={1}

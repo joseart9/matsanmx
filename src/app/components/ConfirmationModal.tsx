@@ -40,7 +40,7 @@ export default function ConfirmationModal({ isOpen, onClose, pedidoId }: Confirm
 
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="secondary" onPress={onClose}>
+                        <Button color="secondary" radius="full" className="font-semibold text-accent/80" onPress={onClose}>
                             Regresar
                         </Button>
                     </ModalFooter>
