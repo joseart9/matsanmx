@@ -11,6 +11,8 @@ import CheckOutModal from "./CheckoutModal";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { HiOutlineTrash } from "react-icons/hi";
 
+import CheckoutModal from "@/app/components/MobileView/CheckoutModal";
+
 export default function NavBarComponent() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { cart } = useCart();
@@ -23,6 +25,8 @@ export default function NavBarComponent() {
 
     const [isClient, setIsClient] = useState(false);
 
+    const [modalIsOpen, setIsOpen] = useState(false);
+
     // Asegurar que estamos en el cliente
     useEffect(() => {
         setIsClient(true);
@@ -31,6 +35,8 @@ export default function NavBarComponent() {
     return (
         <div className="flex h-fit flex-col gap-2 w-full fixed z-50">
             <NavbarComponent onOpenCart={onOpen} isClient={isClient} />
+
+            <CheckoutModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} cart={cart} />
 
             {/* Modal for Cart */}
             <Modal
@@ -78,7 +84,7 @@ export default function NavBarComponent() {
                             <ModalFooter>
                                 <Button className="font-semibold text-accent/80" radius="full" color="secondary" isDisabled={cart.length === 0} onPress={() => {
                                     onClose();
-                                    openCheckoutModal();
+                                    setIsOpen(true);
                                 }}>
                                     Checkout
                                 </Button>
@@ -87,7 +93,6 @@ export default function NavBarComponent() {
                     )}
                 </ModalContent>
             </Modal>
-            <CheckOutModal isOpen={isCheckoutOpen} onClose={closeCheckoutModal} />
         </div >
     );
 }

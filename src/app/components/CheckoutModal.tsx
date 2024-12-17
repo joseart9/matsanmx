@@ -148,8 +148,6 @@ export default function CheckOutModal({ isOpen, onClose }: { isOpen: boolean; on
                     </ModalHeader>
                     <ModalBody>
                         <div ref={modalBodyRef}>
-
-
                             <form onSubmit={onSave} className="flex flex-col space-y-2">
                                 <h1 className="text-secondary p-4">Datos personales</h1>
                                 <Input

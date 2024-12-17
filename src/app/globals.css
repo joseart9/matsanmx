@@ -29,3 +29,7 @@
 .custom-swiper .swiper-button-prev:hover {
   color: #3f3f46;
 }
+
+.custom-swiper {
+  z-index: 0;
+}
