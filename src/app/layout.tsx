@@ -15,7 +15,8 @@ export const metadata: Metadata = {
   description: 'MatsanMX Joyeria y Accesorios',
   icons: {
     apple: '/apple-touch-icon.png',
-  }
+  },
+  manifest: "/manifest.json",
 }
 
 export default function RootLayout({
