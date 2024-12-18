@@ -6,7 +6,7 @@
   "short_name": "maatsanmx",
   "theme_color": "#E3B7A0",
   "background_color": "#E3B7A0",
-  "display": "fullScreen",
+  "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
