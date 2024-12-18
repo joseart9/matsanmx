@@ -37,7 +37,7 @@ export default function Home() {
     //     </p>
     // )}
 
-    if (loading || loadingNovedades && (isIos() && isInStandaloneMode())) return (
+    if ((loading || loadingNovedades) && (isIos() && isInStandaloneMode())) return (
         <div className="flex h-screen w-screen flex-col justify-between bg-[#FFF6E9]">
             <div className="flex flex-col items-center justify-center flex-grow">
                 <img src="/logo.svg" alt="MatsanMX" className="size-52" />
