@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 
-type ScreenSize = "mobile" | "tablet" | "desktop";
+type ScreenSize = "mobile" | "tablet" | "desktop" | null;
 
 const useScreenSize = (): ScreenSize => {
-    const [screenSize, setScreenSize] = useState<ScreenSize>("desktop");
+    const [screenSize, setScreenSize] = useState<ScreenSize>(null);
 
     useEffect(() => {
         const determineScreenSize = () => {

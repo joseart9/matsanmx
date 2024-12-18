@@ -25,6 +25,7 @@ export default function alert(
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
+    draggablePercent: 25,
     theme: "light",
     transition: Bounce,
     style: {

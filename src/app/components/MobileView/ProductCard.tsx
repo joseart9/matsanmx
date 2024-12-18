@@ -53,26 +53,24 @@ export default function ProductCard({ product }: { product: Product }) {
         : product.price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
     return (
-        <Card shadow="none" radius="none" className="w-auto h-[350px] bg-transparent">
+        <Card shadow="none" radius="none" className="w-auto h-[350px] bg-transparent rounded-t-sm">
             <CardBody className="overflow-visible p-0 w-full">
-                <div className="w-auto h-[200px]">
-                    <Zoom classDialog="custom-zoom">
-                        <Image
-                            src={product.img ?? ""}
-                            alt={product.name}
-                            width={250}
-                            height={250}
-                            className="w-full h-full object-cover aspect-[1/1] object-center cursor-pointer"
-                            loading="lazy"
-                        />
-                    </Zoom>
-                </div>
-                <div className="grid grid-cols-12 w-full h-fit p-2">
+                <Zoom classDialog="custom-zoom">
+                    <Image
+                        src={product.img ?? ""}
+                        alt={product.name}
+                        width={250}
+                        height={250}
+                        className="w-full h-full object-cover aspect-[1/1] object-center cursor-pointer"
+                        loading="lazy"
+                    />
+                </Zoom>
+                <div className="grid grid-cols-12 w-full h-fit pt-2 px-1">
                     <div className="col-span-7 h-fit">
                         <p className="text-xs font-bold line-clamp-3 text-accent uppercase">
                             {product.name}
                         </p>
-                        <div className="flex items-center space-x-1">
+                        <div className="flex items-center space-x-1 pt-1">
                             {product.hasDiscount && (
                                 <p className="text-red line-through text-sm">
                                     ${product.price}
@@ -88,23 +86,23 @@ export default function ProductCard({ product }: { product: Product }) {
                             {quantity > 0 ? (
                                 <div className="flex items-center justify-end">
                                     <DynamicButton isIconOnly onClick={decrementQuantity} size="sm" className="bg-transparent">
-                                        <FaMinus className="size-4" />
+                                        <FaMinus className="size-5 text-accent" />
                                     </DynamicButton>
-                                    <span className="text-md font-black">{quantity}</span>
+                                    <span className="text-md font-black text-accent">{quantity}</span>
                                     <DynamicButton isIconOnly onClick={incrementQuantity} size="sm" className="bg-transparent">
-                                        <FaPlus className="size-4" />
+                                        <FaPlus className="size-5 text-accent" />
                                     </DynamicButton>
                                 </div>
                             ) : (
                                 <div className="flex items-center justify-end">
                                     <DynamicButton onClick={incrementQuantity} isIconOnly size="sm" className="flex bg-transparent">
-                                        <FaPlus className="size-4" />
+                                        <FaPlus className="size-5 text-accent" />
                                     </DynamicButton>
                                 </div>
                             )}
                         </div>
                     ) : (
-                        <div className="flex mt-2 col-span-5 justify-end">
+                        <div className="flex col-span-5 justify-end">
                             <span className="text-xs text-red-500 font-semibold">AGOTADO</span>
                         </div>
                     )}

@@ -39,23 +39,34 @@ button[data-rmiz-btn-unzoom] {
 }
 
 .custom-zoom [data-rmiz-modal-img] {
-  transition-duration: 0.2s;
-  transition-timing-function: linear;
+  transition: all 0.2s linear; /* Transición suave para transformaciones */
+  object-fit: cover; /* Ajustar la imagen dentro del contenedor */
+  width: 100%; /* Llenar el contenedor */
+  height: 100%; /* Llenar el contenedor */
 }
 
 .custom-zoom [data-rmiz-modal-overlay] {
-  transition: background-color 0.8s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
   background-color: rgba(0, 0, 0, 0.8);
 }
 
 .custom-zoom [data-rmiz-modal-overlay="hidden"] [data-rmiz-modal-img] {
-  transform: scale(0.25); /* Escala inicial (250px / tamaño pantalla) */
+  transform: none; /* Sin transformaciones para el estado inicial */
 }
 
-.custom-zoom [data-rmiz-modal-overlay="visible"] [data-rmiz-modal-img] {
-  transform: scale(1); /* Escala final (pantalla completa) */
+.custom-zoom [data-rmiz-modal-overlay="hidden"] .aspect-ratio-box {
+  width: 250px; /* Tamaño inicial fijo */
+  height: 250px; /* Tamaño inicial fijo */
+}
+
+.custom-zoom [data-rmiz-modal-overlay="visible"] .aspect-ratio-box {
+  width: 100vw; /* Tamaño ajustado al ancho de la pantalla */
+  height: 100vw; /* Mantener proporción cuadrada */
+  max-height: 100vh; /* Limitar al alto de la pantalla */
+  max-width: 100vh; /* Limitar al ancho de la pantalla */
 }
 
 .custom-zoom [data-rmiz-modal-overlay="hidden"] {
+  transition: background-color 0.2s ease-in-out;
   background-color: rgba(0, 0, 0, 0);
 }

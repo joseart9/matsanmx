@@ -104,9 +104,9 @@ function CheckOutInfo(cartItem: CartItem) {
         removeFromCart(cartItem.product.productId);
     };
     return (
-        <div className="flex gap-2 items-center justify-between">
-            <p className="text-lg text-accent font-black">{cartItem.product.name}</p>
-            <div className="flex flex-row items-center space-x-3">
+        <div className="grid grid-cols-12 items-center justify-between">
+            <p className="text-lg text-accent font-black col-span-6">{cartItem.product.name}</p>
+            <div className="flex flex-row items-center space-x-3 col-span-6 justify-end">
                 <p className="text-lg text-ellipsis text-accent font-black">${cartItem.product.price}&nbsp;x {cartItem.quantity}</p>
                 <Button onPress={handleRemove} isIconOnly className="bg-transparent rounded-full text-red-500/70">
                     <HiOutlineTrash className="size-5 mb-1" />
