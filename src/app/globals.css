@@ -33,3 +33,29 @@
 .custom-swiper {
   z-index: 0;
 }
+
+button[data-rmiz-btn-unzoom] {
+  display: none !important;
+}
+
+.custom-zoom [data-rmiz-modal-img] {
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+}
+
+.custom-zoom [data-rmiz-modal-overlay] {
+  transition: background-color 0.8s ease-in-out;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.custom-zoom [data-rmiz-modal-overlay="hidden"] [data-rmiz-modal-img] {
+  transform: scale(0.25); /* Escala inicial (250px / tamaño pantalla) */
+}
+
+.custom-zoom [data-rmiz-modal-overlay="visible"] [data-rmiz-modal-img] {
+  transform: scale(1); /* Escala final (pantalla completa) */
+}
+
+.custom-zoom [data-rmiz-modal-overlay="hidden"] {
+  background-color: rgba(0, 0, 0, 0);
+}

@@ -6,7 +6,7 @@ import Navbar from '@/app/components/Navbar'
 import { useProductos } from "@/hooks/useProductos";
 import EmptyProductsSVG from "@/app/components/EmptyProductsSVG";
 import { useNovedades } from "@/hooks/useNovedades";
-import { Spinner } from "@nextui-org/react";
+import { Spinner, Input } from "@nextui-org/react";
 
 export default function Home() {
     const { productos, loading, error } = useProductos();
