@@ -72,7 +72,7 @@ export default function ProductCard({ product }: { product: Product }) {
                         </p>
                         <div className="flex items-center space-x-1 pt-1">
                             {product.hasDiscount && (
-                                <p className="text-red line-through text-sm">
+                                <p className="text-red-500 line-through text-sm">
                                     ${product.price}
                                 </p>
                             )}
