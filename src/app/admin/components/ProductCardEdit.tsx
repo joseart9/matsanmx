@@ -1,11 +1,10 @@
 "use client";
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, Image, CardHeader } from "@nextui-org/react";
 import Product from "@/types/Product";
 import EditModal from "./EditModal";
 import { useState } from "react";
 
-export default function ProductCard({ product }: { product: Product }) {
-    const [loading, setLoading] = useState(false);
+export default function ProductCard({ product, refetch }: { product: Product; refetch: () => void }) {
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
     const discountedPrice = product.hasDiscount
         ? (product.price - (product.discount ?? 0)).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
@@ -13,7 +12,10 @@ export default function ProductCard({ product }: { product: Product }) {
 
     return (
         <>
-            <Card shadow="sm" radius="sm" className="w-full" isPressable onPress={(e) => setIsConfirmationOpen(true)}>
+            <Card shadow="sm" radius="sm" className="w-full" isPressable onPress={() => setIsConfirmationOpen(true)}>
+                <CardHeader className="text-accent">
+                    Cantidad: {product.stock ?? 0}
+                </CardHeader>
                 <CardBody className="overflow-visible p-0 w-full">
                     <Image
                         shadow="md"
@@ -31,7 +33,7 @@ export default function ProductCard({ product }: { product: Product }) {
                             <div className="flex items-center space-x-1">
                                 {product.hasDiscount && (
                                     <p className="text-red line-through text-md">
-                                        ${product.price.toFixed(0)}
+                                        ${product.price}
                                     </p>
                                 )}
                                 <p className="text-default-800">
@@ -49,6 +51,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 isOpen={isConfirmationOpen}
                 onClose={() => setIsConfirmationOpen(false)}
                 producto={product}
+                refetch={refetch}
             />
         </>
     );

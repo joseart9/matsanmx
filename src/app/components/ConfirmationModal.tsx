@@ -8,7 +8,6 @@ interface ConfirmationModalProps {
 }
 
 export default function ConfirmationModal({ isOpen, onClose, pedidoId }: ConfirmationModalProps) {
-    console.log("Pedido ID recibido por Confirmiation Modal: ", pedidoId);
     return (
         <Modal
             isOpen={isOpen}
@@ -18,6 +17,7 @@ export default function ConfirmationModal({ isOpen, onClose, pedidoId }: Confirm
             }}
             hideCloseButton
             isDismissable={false}
+            className="bg-[#FFF9F0]"
         >
             <ModalContent>
                 <>
@@ -40,7 +40,7 @@ export default function ConfirmationModal({ isOpen, onClose, pedidoId }: Confirm
 
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="secondary" onPress={onClose}>
+                        <Button color="secondary" radius="full" className="font-semibold text-accent/80" onPress={onClose}>
                             Regresar
                         </Button>
                     </ModalFooter>

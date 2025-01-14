@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider, Link, Image } from "@nextui-org/react";
 import { Pedido } from "@/types/Pedido";
+import { markPedidoAsCompleted } from "@/server/actions";
 
 interface PedidoModalProps {
     isOpen: boolean;
@@ -20,7 +21,21 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
         return acc + (producto.product.discount ?? 0) * producto.quantity;
     }, 0);
 
-    const total = subtotal && totalDiscount ? subtotal - totalDiscount : 0;
+    const total = (subtotal ?? 0) - (totalDiscount ?? 0);
+
+    // Función para finalizar el pedido
+    const completarPedido = async () => {
+        setLoading(true);
+        try {
+            // Aquí se puede agregar la lógica para finalizar el pedido
+            await markPedidoAsCompleted(pedido?.id!);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+            onClose();
+        }
+    };
 
     return (
         <Modal
@@ -30,6 +45,7 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
                 if (!open) onClose();
             }}
             hideCloseButton
+            scrollBehavior="inside"
             isDismissable={false}
         >
             <ModalContent>
@@ -41,7 +57,7 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
                     <ModalBody>
                         {pedido?.carrito?.items.map((producto) => (
                             <div key={producto.product.productId} className="flex gap-3 items-center">
-                                <img
+                                <Image
                                     width="50px"
                                     height="50px"
                                     src={producto.product.img}
@@ -64,18 +80,36 @@ export default function EditModal({ isOpen, onClose, pedido }: PedidoModalProps)
 
                         <Divider />
                         <div className="text-accent">
+                            <p>
+                                <strong>Información del Cliente</strong>
+                            </p>
                             <p>{pedido?.primerNombre} {pedido?.segundoNombre} {pedido?.primerApellido} {pedido?.segundoApellido}</p>
-                            <p>{pedido?.telefono}</p>
-                            <p>{pedido?.calle} {pedido?.numero} {pedido?.colonia}</p>
+                            <Link
+                                isExternal
+                                showAnchorIcon
+                                href={`tel:${pedido?.telefono}`}
+                                className="text-accent"
+                            >
+                                {pedido?.telefono}
+                            </Link>
+                            {/* <p>{pedido?.calle} {pedido?.numero} {pedido?.colonia}</p>
                             <p>{pedido?.ciudad}, {pedido?.estado}</p>
-                            <p>{pedido?.cp}</p>
+                            <p>{pedido?.cp}</p> */}
+                            <br />
+                            <br />
+                            <p>
+                                <strong>Información del Envío</strong>
+                            </p>
+                            <p>
+                                {pedido?.envio ? pedido?.envio === "tienda" ? "Recoger en Tienda" : "Entrega en Facultad Medicina" : "Sin especificar"}
+                            </p>
                         </div>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" variant="flat" onPress={onClose} disabled={loading}>
                             Cerrar
                         </Button>
-                        <Button color="secondary" isLoading={loading}>
+                        <Button color="secondary" onPress={completarPedido} isLoading={loading}>
                             Finalizar
                         </Button>
                     </ModalFooter>

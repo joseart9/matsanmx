@@ -23,7 +23,8 @@ export default function AdminProductos() {
         price: 10,
         img: "",
         discount: 0,
-        hasDiscount: false
+        hasDiscount: false,
+        stock: 0
     });
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,24 +69,23 @@ export default function AdminProductos() {
         try {
             // Primero sube la imagen y obtiene la URL
             const imageUrl = await uploadImageToImgBB(imageFile);
-            console.log("Imagen subida con URL:", imageUrl);
 
             // Actualiza el producto con el URL de la imagen
             const newProduct = { ...product, img: imageUrl };
 
             // Envía el producto completo a la base de datos
             await addProducto(newProduct);
-            console.log("Producto guardado con éxito:", newProduct);
 
             // Resetea el formulario y la imagen
             setProduct({
-                productId: "",
+                productId: generateRandomId(),
                 name: "Nombre del Producto",
                 description: "Descripción del Producto",
                 price: 10,
                 img: "",
                 discount: 0,
-                hasDiscount: false
+                hasDiscount: false,
+                stock: 0
             });
             setImageFile(null);
             setImagePreviewURL(null);
@@ -103,7 +103,7 @@ export default function AdminProductos() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen w-screen bg-primary">
+        <div className="flex flex-col min-h-screen w-full bg-primary">
             <input
                 type="file"
                 accept="image/*"
@@ -134,6 +134,15 @@ export default function AdminProductos() {
                         value={product.description}
                         onChange={handleInputChange}
                         minRows={3}
+                        size="lg"
+                        color="warning"
+
+                    />
+                    <Input
+                        label="Stock"
+                        name="stock"
+                        value={product.stock?.toString() || ""}
+                        onChange={handleInputChange}
                         size="lg"
                         color="warning"
                     />
