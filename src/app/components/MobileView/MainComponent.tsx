@@ -7,6 +7,7 @@ import { useProductos } from "@/hooks/useProductos";
 import EmptyProductsSVG from "@/app/components/EmptyProductsSVG";
 import { useNovedades } from "@/hooks/useNovedades";
 import { Spinner, Skeleton } from "@nextui-org/react";
+import Image from "next/image";
 
 export default function Home() {
     const { productos, loading, error } = useProductos();
@@ -60,7 +61,7 @@ export default function Home() {
                     ✈️ Envíos nacionales y locales
                 </p>
                 <a href="https://www.instagram.com/matsanmx/">
-                    <img src="/instagram.svg" alt="Argentina" className="text-primary fill-primary w-5 h-5 mr-5" />
+                    <Image height={300} width={300} src="/instagram.svg" alt="Argentina" className="text-primary fill-primary w-5 h-5 mr-5" />
                 </a>
             </section>
             <section className="flex w-full h-full flex-col p-2 bg-[#FFF6E9] mt-2">
